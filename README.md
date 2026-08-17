@@ -94,7 +94,7 @@ FlowState is being developed iteratively. New features, improvements, analytics 
 
 * Advanced productivity analytics
 * Improved dashboards and visualizations
-* AI-powered productivity insights
+* AI powered productivity insights
 * LLM integration
 * Retrieval-Augmented Generation (RAG)
 * Personalized recommendations
