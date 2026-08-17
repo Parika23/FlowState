@@ -9,7 +9,7 @@ The project combines a Flask based web application with data processing and anal
 
 ## Features
 
-* Track productivity and lifestyle-related data
+* Track productivity and lifestyle related data
 * Store and manage user data using SQL
 * Analyze productivity patterns using Python and Pandas
 * Generate insights from collected data
