@@ -2,7 +2,7 @@
 
 FlowState is a productivity analytics web application designed to help users track and understand lifestyle and productivity patterns through structured data and analytics.
 
-The project combines a Flask-based web application with data processing and analysis to provide insights into factors such as tasks, energy levels, sleep, and screen time.
+The project combines a Flask based web application with data processing and analysis to provide insights into factors such as tasks, energy levels, sleep, and screen time.
 
 > **Status:** 🚧 Work in Progress
 > FlowState is currently under active development. Additional analytics and AI-powered features will be added in future iterations.
