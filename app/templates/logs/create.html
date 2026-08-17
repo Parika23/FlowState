@@ -1,0 +1,284 @@
+
+
+           {% extends "base.html" %}
+
+{% block title %}Daily Flow Check-In | FlowState{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body p-5">
+
+                    <div class="text-center mb-5">
+
+                        <h1 class="fw-bold">
+                            📅 Daily Flow Check-In
+                        </h1>
+
+                        <p class="text-muted">
+                            Reflect on your day and help FlowState uncover your productivity patterns.
+                        </p>
+
+                    </div>
+
+                    <form method="POST">
+
+                        {{ form.hidden_tag() }}
+
+                        {% macro render_field(field, placeholder="", helper="") %}
+
+                            {{ field.label(class="form-label fw-semibold") }}
+
+                            {% if field.errors %}
+
+                                {{ field(class="form-control is-invalid", placeholder=placeholder) }}
+
+                                <div class="invalid-feedback">
+
+                                    {% for error in field.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+
+                                </div>
+
+                            {% else %}
+
+                                {{ field(class="form-control", placeholder=placeholder) }}
+
+                            {% endif %}
+
+                            {% if helper %}
+                                <div class="form-text fst-italic">
+                                    {{ helper }}
+                                </div>
+                            {% endif %}
+
+                        {% endmacro %}
+
+                        {% macro render_select(field) %}
+
+                            {{ field.label(class="form-label fw-semibold") }}
+
+                            {% if field.errors %}
+
+                                {{ field(class="form-select is-invalid") }}
+
+                                <div class="invalid-feedback">
+
+                                    {% for error in field.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+
+                                </div>
+
+                            {% else %}
+
+                                {{ field(class="form-select") }}
+
+                            {% endif %}
+
+                        {% endmacro %}
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-4">
+                                {{ render_field(form.log_date) }}
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                {{ render_field(form.sleep_hours, "e.g. 7.5") }}
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                {{ render_field(
+                                    form.recreational_screen_time,
+                                    "e.g. 2.5",
+                                    "Only include entertainment or recreational screen time (social media, gaming, streaming, etc.). Exclude studying, coding, work or productive screen time."
+                                ) }}
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                {{ render_field(
+                                    form.focus_hours,
+                                    "e.g. 3.5",
+                                    "Count only hours spent doing uninterrupted, meaningful work or study."
+                                ) }}
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                {{ render_field(
+                                    form.planned_tasks,
+                                    "e.g. 8",
+                                    "Tasks you intended to complete today."
+                                ) }}
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                {{ render_field(
+                                    form.completed_tasks,
+                                    "e.g. 6",
+                                    "Only count tasks completed from the list you planned."
+                                ) }}
+                            </div>
+
+                            <div class="col-md-4 mb-4">
+                                {{ render_select(form.energy) }}
+                            </div>
+
+                            <div class="col-md-4 mb-4">
+                                {{ render_select(form.mood) }}
+                            </div>
+
+                            <div class="col-md-4 mb-4">
+                                {{ render_select(form.stress) }}
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                {{ render_field(
+                                    form.exercise_minutes,
+                                    "e.g. 45",
+                                    "Enter total exercise duration in minutes."
+                                ) }}
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                {{ render_field(
+                                    form.water_intake,
+                                    "e.g. 2.5",
+                                    "Enter your total water intake in litres."
+                                ) }}
+                            </div>
+
+                            <!-- FLOW STATE -->
+
+                            <div class="col-12 mb-4">
+
+                                <div class="card border-primary shadow-sm">
+
+                                    <div class="card-body">
+
+                                        <h5 class="fw-bold mb-2">
+
+                                            🌊 Flow State Check
+
+                                        </h5>
+
+                                        <p class="text-muted mb-4">
+
+                                            Which option best describes your day?
+
+                                        </p>
+
+                                        {% for subfield in form.flow_state %}
+
+                                            <div class="form-check border rounded p-3 mb-3">
+
+                                                {{ subfield(class="form-check-input") }}
+
+                                                {{ subfield.label(class="form-check-label ms-2 fw-semibold") }}
+
+                                            </div>
+
+                                        {% endfor %}
+
+                                        {% if form.flow_state.errors %}
+
+                                            <div class="text-danger">
+
+                                                {% for error in form.flow_state.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+
+                                            </div>
+
+                                        {% endif %}
+
+                                        <div class="alert alert-light border mt-4 mb-0">
+
+                                            <strong>💡 What is a Flow State?</strong>
+
+                                            <p class="mb-0 mt-2">
+
+                                                A Flow State is a period of deep focus where you become fully immersed in a meaningful task, distractions fade away, and you perform at your best without constantly forcing yourself to stay focused.
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- NOTES -->
+
+                            <div class="col-12 mb-4">
+
+                                {{ form.notes.label(class="form-label fw-semibold") }}
+
+                                {% if form.notes.errors %}
+
+                                    {{ form.notes(
+                                        class="form-control is-invalid",
+                                        rows="5",
+                                        placeholder="Celebrate today's wins, reflect on challenges, or jot down anything worth remembering."
+                                    ) }}
+
+                                    <div class="invalid-feedback">
+
+                                        {% for error in form.notes.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+
+                                    </div>
+
+                                {% else %}
+
+                                    {{ form.notes(
+                                        class="form-control",
+                                        rows="5",
+                                        placeholder="Celebrate today's wins, reflect on challenges, or jot down anything worth remembering."
+                                    ) }}
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        <div class="text-center text-muted small mt-2 mb-4">
+
+                            Every check-in helps FlowState learn what brings out your best performance.
+
+                        </div>
+
+                        <div class="d-grid">
+
+                            {{ form.submit(
+                                class="btn btn-primary btn-lg",
+                                value="Save Today's Check-In"
+                            ) }}
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

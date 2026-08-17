@@ -1,0 +1,642 @@
+{% extends "base.html" %}
+
+{% block title %}
+Analytics | FlowState
+{% endblock %}
+
+{% block content %}
+
+<h1 class="fw-bold">
+    📈 Performance Analytics
+</h1>
+
+<p class="text-muted">
+    See how your daily habits are shaping your performance
+    and what your recent patterns suggest for tomorrow.
+</p>
+
+
+<!-- ======================================================
+     PERFORMANCE OVERVIEW
+     ====================================================== -->
+
+<h3 class="fw-bold mt-5">
+    Your Performance Overview
+</h3>
+
+<p class="text-muted mb-3">
+    A snapshot of your recent performance across the areas
+    that shape your FlowState.
+</p>
+
+<div class="alert alert-light border">
+    <strong>How to read your scores:</strong>
+    All scores use a 0–100 scale. Higher scores indicate
+    stronger performance in that area.
+</div>
+
+
+<div class="row g-4 mb-5">
+
+    <!-- FlowState -->
+
+    <div class="col-md-6 col-lg">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body text-center">
+
+                <div class="fs-2 mb-2">
+                    🌊
+                </div>
+
+                <h6 class="text-muted">
+                    FlowState Index
+                </h6>
+
+                <h2 class="fw-bold">
+                    {{ analytics.average_flowstate_index }}
+                </h2>
+
+                <small class="text-muted">
+                    overall performance balance
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Productivity -->
+
+    <div class="col-md-6 col-lg">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body text-center">
+
+                <div class="fs-2 mb-2">
+                    🎯
+                </div>
+
+                <h6 class="text-muted">
+                    Productivity
+                </h6>
+
+                <h2 class="fw-bold">
+                    {{ analytics.average_productivity_score }}
+                </h2>
+
+                <small class="text-muted">
+                    getting meaningful work done
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Recovery -->
+
+    <div class="col-md-6 col-lg">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body text-center">
+
+                <div class="fs-2 mb-2">
+                    😴
+                </div>
+
+                <h6 class="text-muted">
+                    Recovery
+                </h6>
+
+                <h2 class="fw-bold">
+                    {{ analytics.average_recovery_score }}
+                </h2>
+
+                <small class="text-muted">
+                    rest and recovery capacity
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Execution -->
+
+    <div class="col-md-6 col-lg">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body text-center">
+
+                <div class="fs-2 mb-2">
+                    ⚡
+                </div>
+
+                <h6 class="text-muted">
+                    Execution
+                </h6>
+
+                <h2 class="fw-bold">
+                    {{ analytics.average_execution_score }}
+                </h2>
+
+                <small class="text-muted">
+                    turning plans into action
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Capacity -->
+
+    <div class="col-md-6 col-lg">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body text-center">
+
+                <div class="fs-2 mb-2">
+                    🧠
+                </div>
+
+                <h6 class="text-muted">
+                    Capacity
+                </h6>
+
+                <h2 class="fw-bold">
+                    {{ analytics.average_capacity_score }}
+                </h2>
+
+                <small class="text-muted">
+                    energy and mental readiness
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     TOMORROW'S OUTLOOK
+     ====================================================== -->
+
+<h3 class="fw-bold">
+    🔮 Tomorrow's Outlook
+</h3>
+
+<p class="text-muted">
+    Based on your recent patterns, here's what your next
+    day may look like.
+</p>
+
+
+<div class="row g-4 mb-5">
+
+    <!-- Tomorrow FlowState -->
+
+    <div class="col-md-4">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body text-center">
+
+                <div class="fs-2 mb-2">
+                    🌊
+                </div>
+
+                <h6 class="text-muted">
+                    Tomorrow's FlowState
+                </h6>
+
+                <h2 class="fw-bold text-primary">
+                    {{ prediction.flowstate_index }}
+                </h2>
+
+                <small class="text-muted">
+                    estimated from recent patterns
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Tomorrow Productivity -->
+
+    <div class="col-md-4">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body text-center">
+
+                <div class="fs-2 mb-2">
+                    🎯
+                </div>
+
+                <h6 class="text-muted">
+                    Tomorrow's Productivity
+                </h6>
+
+                <h2 class="fw-bold text-success">
+                    {{ prediction.productivity_score }}
+                </h2>
+
+                <small class="text-muted">
+                    estimated from recent patterns
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Tomorrow Recovery -->
+
+    <div class="col-md-4">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body text-center">
+
+                <div class="fs-2 mb-2">
+                    😴
+                </div>
+
+                <h6 class="text-muted">
+                    Tomorrow's Recovery
+                </h6>
+
+                <h2 class="fw-bold text-info">
+                    {{ prediction.recovery_score }}
+                </h2>
+
+                <small class="text-muted">
+                    estimated from recent patterns
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Expected Performance -->
+
+    <div class="col-12">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body text-center">
+
+                <div class="fs-2 mb-2">
+                    ✨
+                </div>
+
+                <h6 class="text-muted">
+                    Expected Performance
+                </h6>
+
+                <h3 class="fw-bold text-warning">
+                    {{ prediction.performance_label }}
+                </h3>
+
+                <p class="text-muted mb-0">
+                    An estimate based on patterns in your
+                    recent check-ins.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     INSIGHTS
+     ====================================================== -->
+
+<h3 class="fw-bold">
+    💡 What Stands Out
+</h3>
+
+<p class="text-muted">
+    Key patterns found in your recent check-ins.
+</p>
+
+
+{% if insights %}
+
+    {% for insight in insights %}
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-body">
+
+                <h4 class="fw-bold">
+
+                    {{ insight.icon }}
+                    {{ insight.title }}
+
+                </h4>
+
+                <p class="mb-0">
+
+                    {{ insight.message }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <div class="alert alert-info">
+
+        Keep logging your daily habits to unlock
+        personalized insights.
+
+    </div>
+
+{% endif %}
+
+
+<!-- ======================================================
+     PERFORMANCE TRENDS
+     ====================================================== -->
+
+<!-- ======================================================
+     PERFORMANCE TRENDS
+     ====================================================== -->
+
+<h3 class="fw-bold mt-5">
+    📊 Your Performance Trends
+</h3>
+
+<p class="text-muted">
+    See how your performance has changed over time
+    and spot patterns across your recent check-ins.
+</p>
+
+
+<div class="row g-4 mb-5">
+
+    <!-- FlowState -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <h5 class="fw-bold">
+                    🌊 FlowState Over Time
+                </h5>
+
+                <p class="text-muted small">
+                    Your overall performance pattern across
+                    recent check-ins.
+                </p>
+
+                {% if report.charts.flowstate %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename=report.charts.flowstate
+                        ) }}"
+                        class="img-fluid w-100"
+                        alt="FlowState trend">
+
+                {% else %}
+
+                    <div class="alert alert-light border">
+                        Complete more check-ins to see your
+                        FlowState trend.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Productivity -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <h5 class="fw-bold">
+                    🎯 Productivity Over Time
+                </h5>
+
+                <p class="text-muted small">
+                    See how consistently you're getting
+                    meaningful work done.
+                </p>
+
+                {% if report.charts.productivity %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename=report.charts.productivity
+                        ) }}"
+                        class="img-fluid w-100"
+                        alt="Productivity trend">
+
+                {% else %}
+
+                    <div class="alert alert-light border">
+                        Complete more check-ins to see your
+                        productivity trend.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Recovery -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <h5 class="fw-bold">
+                    😴 Recovery Over Time
+                </h5>
+
+                <p class="text-muted small">
+                    Track how your recovery has changed
+                    across recent check-ins.
+                </p>
+
+                {% if report.charts.recovery %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename=report.charts.recovery
+                        ) }}"
+                        class="img-fluid w-100"
+                        alt="Recovery trend">
+
+                {% else %}
+
+                    <div class="alert alert-light border">
+                        Complete more check-ins to see your
+                        recovery trend.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Sleep -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <h5 class="fw-bold">
+                    🛌 Sleep Over Time
+                </h5>
+
+                <p class="text-muted small">
+                    See how your sleep duration has changed
+                    across recent check-ins.
+                </p>
+
+                {% if report.charts.sleep %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename=report.charts.sleep
+                        ) }}"
+                        class="img-fluid w-100"
+                        alt="Sleep trend">
+
+                {% else %}
+
+                    <div class="alert alert-light border">
+                        Complete more check-ins to see your
+                        sleep trend.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     DEEPER PATTERNS
+     ====================================================== -->
+
+<h3 class="fw-bold mt-5">
+    🔬 Deeper Patterns
+</h3>
+
+<p class="text-muted">
+    Explore how different parts of your daily routine
+    tend to move together.
+</p>
+
+
+<div class="card shadow-sm mb-5">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold">
+            🔗 How Your Metrics Move Together
+        </h5>
+
+        <p class="text-muted">
+            This view shows relationships between the metrics
+            in your check-ins. A relationship does not necessarily
+            mean that one factor causes another.
+        </p>
+
+        {% if report.charts.correlation %}
+
+            <div class="text-center mt-4">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename=report.charts.correlation
+                    ) }}"
+                    class="img-fluid"
+                    alt="Correlation heatmap">
+
+            </div>
+
+        {% else %}
+
+            <div class="alert alert-info">
+                Complete more check-ins to explore relationships
+                between your metrics.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

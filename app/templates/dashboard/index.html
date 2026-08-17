@@ -1,0 +1,605 @@
+{% extends "base.html" %}
+
+{% block title %}
+Performance Dashboard | FlowState
+{% endblock %}
+
+{% block content %}
+
+<!-- ======================================================
+     WELCOME
+     ====================================================== -->
+
+<div class="mb-5">
+
+    <h1 class="fw-bold">
+        Welcome back, {{ current_user.username|title }} 👋
+    </h1>
+
+    <p class="text-muted">
+        A quick look at your current performance, daily habits,
+        and the areas that deserve your attention.
+    </p>
+
+</div>
+
+
+<!-- ======================================================
+     FLOWSTATE HERO
+     ====================================================== -->
+
+<div class="card border-0 shadow-sm mb-5">
+
+    <div class="card-body text-center py-5">
+
+        <div class="fs-1 mb-2">
+            🌊
+        </div>
+
+        <p class="text-uppercase text-muted mb-1">
+            Your FlowState
+        </p>
+
+        <h1 class="display-2 fw-bold text-primary mb-1">
+            {{ analytics.average_flowstate_index }}
+        </h1>
+
+        <h4 class="fw-bold mb-3">
+            Overall Performance
+        </h4>
+
+        <p class="text-muted mb-0">
+            A combined view of your recovery, capacity, focus,
+            productivity, and sustainability.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     KEY PERFORMANCE AREAS
+     ====================================================== -->
+
+<div class="mb-4">
+
+    <h3 class="fw-bold">
+        Your Key Performance Areas
+    </h3>
+
+    <p class="text-muted">
+        A quick view of the areas shaping your current performance.
+    </p>
+
+</div>
+
+
+<div class="row g-4 mb-5">
+
+
+    <!-- Recovery -->
+
+    <div class="col-md-6 col-lg-4">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+
+                    <h5 class="mb-0">
+                        😴 Recovery
+                    </h5>
+
+                    <strong>
+                        {{ analytics.average_recovery_score }}
+                    </strong>
+
+                </div>
+
+                <div class="progress mb-3">
+
+                    <div
+                        class="progress-bar bg-success"
+                        role="progressbar"
+                        style="width: {{ analytics.average_recovery_score }}%;"
+                        aria-valuenow="{{ analytics.average_recovery_score }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100">
+                    </div>
+
+                </div>
+
+                <small class="text-muted">
+                    Rest, sleep, hydration, and physical recovery.
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Capacity -->
+
+    <div class="col-md-6 col-lg-4">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+
+                    <h5 class="mb-0">
+                        🧠 Capacity
+                    </h5>
+
+                    <strong>
+                        {{ analytics.average_capacity_score }}
+                    </strong>
+
+                </div>
+
+                <div class="progress mb-3">
+
+                    <div
+                        class="progress-bar bg-warning"
+                        role="progressbar"
+                        style="width: {{ analytics.average_capacity_score }}%;"
+                        aria-valuenow="{{ analytics.average_capacity_score }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100">
+                    </div>
+
+                </div>
+
+                <small class="text-muted">
+                    Your energy and mental readiness.
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Focus -->
+
+    <div class="col-md-6 col-lg-4">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+
+                    <h5 class="mb-0">
+                        🎯 Focus
+                    </h5>
+
+                    <strong>
+                        {{ analytics.average_focus_investment_score }}
+                    </strong>
+
+                </div>
+
+                <div class="progress mb-3">
+
+                    <div
+                        class="progress-bar bg-info"
+                        role="progressbar"
+                        style="width: {{ analytics.average_focus_investment_score }}%;"
+                        aria-valuenow="{{ analytics.average_focus_investment_score }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100">
+                    </div>
+
+                </div>
+
+                <small class="text-muted">
+                    How effectively you're investing your attention.
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Productivity -->
+
+    <div class="col-md-6 col-lg-4">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+
+                    <h5 class="mb-0">
+                        📈 Productivity
+                    </h5>
+
+                    <strong>
+                        {{ analytics.average_productivity_score }}
+                    </strong>
+
+                </div>
+
+                <div class="progress mb-3">
+
+                    <div
+                        class="progress-bar bg-primary"
+                        role="progressbar"
+                        style="width: {{ analytics.average_productivity_score }}%;"
+                        aria-valuenow="{{ analytics.average_productivity_score }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100">
+                    </div>
+
+                </div>
+
+                <small class="text-muted">
+                    How effectively you're getting meaningful work done.
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Execution -->
+
+    <div class="col-md-6 col-lg-4">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+
+                    <h5 class="mb-0">
+                        ⚡ Execution
+                    </h5>
+
+                    <strong>
+                        {{ analytics.average_execution_score }}
+                    </strong>
+
+                </div>
+
+                <div class="progress mb-3">
+
+                    <div
+                        class="progress-bar bg-dark"
+                        role="progressbar"
+                        style="width: {{ analytics.average_execution_score }}%;"
+                        aria-valuenow="{{ analytics.average_execution_score }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100">
+                    </div>
+
+                </div>
+
+                <small class="text-muted">
+                    How consistently your plans turn into action.
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Sustainability -->
+
+    <div class="col-md-6 col-lg-4">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+
+                    <h5 class="mb-0">
+                        🌱 Sustainability
+                    </h5>
+
+                    <strong>
+                        {{ analytics.average_sustainability_score }}
+                    </strong>
+
+                </div>
+
+                <div class="progress mb-3">
+
+                    <div
+                        class="progress-bar bg-success"
+                        role="progressbar"
+                        style="width: {{ analytics.average_sustainability_score }}%;"
+                        aria-valuenow="{{ analytics.average_sustainability_score }}"
+                        aria-valuemin="0"
+                        aria-valuemax="100">
+                    </div>
+
+                </div>
+
+                <small class="text-muted">
+                    Whether your current pace is realistic to maintain.
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     WHAT STANDS OUT
+     ====================================================== -->
+
+<div class="mb-4">
+
+    <h3 class="fw-bold">
+        ✨ What Stands Out
+    </h3>
+
+    <p class="text-muted">
+        A quick interpretation of your current performance.
+    </p>
+
+</div>
+
+
+<div class="row g-4 mb-5">
+
+
+    <!-- Strongest Area -->
+
+    <div class="col-md-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <h5 class="fw-bold">
+                    💪 Your Strongest Area
+                </h5>
+
+                <p class="text-muted mb-0">
+                    Your current performance is being supported
+                    by the areas where your scores are strongest.
+                    Visit Analytics for a detailed breakdown.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Opportunity -->
+
+    <div class="col-md-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <h5 class="fw-bold">
+                    👀 Room to Improve
+                </h5>
+
+                <p class="text-muted mb-0">
+                    Small improvements in your weaker areas can
+                    help strengthen your overall FlowState.
+                    Visit Analytics to explore your patterns.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     DAILY SNAPSHOT
+     ====================================================== -->
+
+<div class="mb-4">
+
+    <h3 class="fw-bold">
+        📋 Your Daily Snapshot
+    </h3>
+
+    <p class="text-muted">
+        The everyday habits behind your performance.
+    </p>
+
+</div>
+
+
+<div class="card shadow-sm mb-5">
+
+    <div class="card-body">
+
+        <div class="row">
+
+            <div class="col-md-4 col-lg-3 mb-4">
+                😴 Sleep
+                <br>
+                <strong>
+                    {{ analytics.average_sleep }} hrs
+                </strong>
+            </div>
+
+            <div class="col-md-4 col-lg-3 mb-4">
+                🎯 Focus
+                <br>
+                <strong>
+                    {{ analytics.average_focus }} hrs
+                </strong>
+            </div>
+
+            <div class="col-md-4 col-lg-3 mb-4">
+                ⚡ Energy
+                <br>
+                <strong>
+                    {{ analytics.average_energy }}/10
+                </strong>
+            </div>
+
+            <div class="col-md-4 col-lg-3 mb-4">
+                😊 Mood
+                <br>
+                <strong>
+                    {{ analytics.average_mood }}/10
+                </strong>
+            </div>
+
+            <div class="col-md-4 col-lg-3 mb-4">
+                😰 Stress
+                <br>
+                <strong>
+                    {{ analytics.average_stress }}/10
+                </strong>
+            </div>
+
+            <div class="col-md-4 col-lg-3 mb-4">
+                💧 Water
+                <br>
+                <strong>
+                    {{ analytics.average_water }} L
+                </strong>
+            </div>
+
+            <div class="col-md-4 col-lg-3 mb-4">
+                🏃 Exercise
+                <br>
+                <strong>
+                    {{ analytics.average_exercise }} mins
+                </strong>
+            </div>
+
+            <div class="col-md-4 col-lg-3 mb-4">
+                📱 Screen Time
+                <br>
+                <strong>
+                    {{ analytics.average_screen_time }} hrs
+                </strong>
+            </div>
+
+            <div class="col-md-4 col-lg-3 mb-0">
+                ✅ Task Completion
+                <br>
+                <strong>
+                    {{ analytics.average_completion }}%
+                </strong>
+            </div>
+
+            <div class="col-md-4 col-lg-3 mb-0">
+                🌊 Full-Flow Days
+                <br>
+                <strong>
+                    {{ analytics.flow_state_percentage }}%
+                </strong>
+            </div>
+
+            <div class="col-md-4 col-lg-3 mb-0">
+                📅 Check-ins
+                <br>
+                <strong>
+                    {{ analytics.total_checkins }}
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     GO DEEPER
+     ====================================================== -->
+
+<div class="card border-0 shadow-sm mb-5">
+
+    <div class="card-body text-center py-4">
+
+        <div class="fs-3 mb-2">
+            🔎
+        </div>
+
+        <h4 class="fw-bold">
+            Want to understand your patterns?
+        </h4>
+
+        <p class="text-muted">
+            Explore your trends, insights, and tomorrow's outlook
+            on the Analytics page.
+        </p>
+
+        <a
+            href="{{ url_for('main.analytics') }}"
+            class="btn btn-primary">
+
+            Explore Analytics →
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     EMPTY STATE
+     ====================================================== -->
+
+{% if analytics.total_checkins == 0 %}
+
+<div class="card shadow-sm text-center mt-5">
+
+    <div class="card-body py-5">
+
+        <h4>
+            🌱 Your FlowState journey starts today.
+        </h4>
+
+        <p class="text-muted">
+            Complete your first Daily Check-In to start
+            discovering your personal performance patterns.
+        </p>
+
+        <a
+            href="{{ url_for('logs.new_log') }}"
+            class="btn btn-primary btn-lg">
+
+            Complete Today's Check-In
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+{% endblock %}
