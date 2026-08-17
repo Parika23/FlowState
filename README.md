@@ -98,7 +98,7 @@ FlowState is being developed iteratively. New features, improvements, analytics 
 * LLM integration
 * Retrieval-Augmented Generation (RAG)
 * Personalized recommendations
-* Additional data-driven productivity features
+* Additional data driven productivity features
 
 ## License
 
