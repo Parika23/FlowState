@@ -6,14 +6,22 @@ Analytics | FlowState
 
 {% block content %}
 
-<h1 class="fw-bold">
-    📈 Performance Analytics
-</h1>
+<!-- ======================================================
+     HEADER
+     ====================================================== -->
 
-<p class="text-muted">
-    See how your daily habits are shaping your performance
-    and what your recent patterns suggest for tomorrow.
-</p>
+<div class="mb-5">
+
+    <h1 class="fw-bold">
+        📈 Performance Analytics
+    </h1>
+
+    <p class="text-muted">
+        See how your daily habits are shaping your performance
+        and what your recent patterns suggest for tomorrow.
+    </p>
+
+</div>
 
 
 <!-- ======================================================
@@ -367,9 +375,7 @@ Analytics | FlowState
                 </h4>
 
                 <p class="mb-0">
-
                     {{ insight.message }}
-
                 </p>
 
             </div>
@@ -394,17 +400,13 @@ Analytics | FlowState
      PERFORMANCE TRENDS
      ====================================================== -->
 
-<!-- ======================================================
-     PERFORMANCE TRENDS
-     ====================================================== -->
-
 <h3 class="fw-bold mt-5">
     📊 Your Performance Trends
 </h3>
 
 <p class="text-muted">
     See how your performance has changed over time
-    and spot patterns across your recent check-ins.
+    and spot meaningful patterns in your recent check-ins.
 </p>
 
 
@@ -423,8 +425,8 @@ Analytics | FlowState
                 </h5>
 
                 <p class="text-muted small">
-                    Your overall performance pattern across
-                    recent check-ins.
+                    Your overall performance balance across
+                    your recent check-ins.
                 </p>
 
                 {% if report.charts.flowstate %}
@@ -435,13 +437,19 @@ Analytics | FlowState
                             filename=report.charts.flowstate
                         ) }}"
                         class="img-fluid w-100"
-                        alt="FlowState trend">
+                        alt="FlowState trend"
+                    >
+
+                    <div class="alert alert-light border mt-3 mb-0">
+                        <strong>Your takeaway:</strong>
+                        {{ report.charts.interpretations.flowstate }}
+                    </div>
 
                 {% else %}
 
                     <div class="alert alert-light border">
-                        Complete more check-ins to see your
-                        FlowState trend.
+                        Keep logging your daily habits to see
+                        your FlowState trend.
                     </div>
 
                 {% endif %}
@@ -478,13 +486,19 @@ Analytics | FlowState
                             filename=report.charts.productivity
                         ) }}"
                         class="img-fluid w-100"
-                        alt="Productivity trend">
+                        alt="Productivity trend"
+                    >
+
+                    <div class="alert alert-light border mt-3 mb-0">
+                        <strong>Your takeaway:</strong>
+                        {{ report.charts.interpretations.productivity }}
+                    </div>
 
                 {% else %}
 
                     <div class="alert alert-light border">
-                        Complete more check-ins to see your
-                        productivity trend.
+                        Keep logging your daily habits to see
+                        your productivity trend.
                     </div>
 
                 {% endif %}
@@ -521,13 +535,19 @@ Analytics | FlowState
                             filename=report.charts.recovery
                         ) }}"
                         class="img-fluid w-100"
-                        alt="Recovery trend">
+                        alt="Recovery trend"
+                    >
+
+                    <div class="alert alert-light border mt-3 mb-0">
+                        <strong>Your takeaway:</strong>
+                        {{ report.charts.interpretations.recovery }}
+                    </div>
 
                 {% else %}
 
                     <div class="alert alert-light border">
-                        Complete more check-ins to see your
-                        recovery trend.
+                        Keep logging your daily habits to see
+                        your recovery trend.
                     </div>
 
                 {% endif %}
@@ -564,13 +584,18 @@ Analytics | FlowState
                             filename=report.charts.sleep
                         ) }}"
                         class="img-fluid w-100"
-                        alt="Sleep trend">
+                        alt="Sleep trend"
+                    >
 
+                    <div class="alert alert-light border mt-3 mb-0">
+                        <strong>Your takeaway:</strong>
+                        {{ report.charts.interpretations.sleep }}
+                    </div>
                 {% else %}
 
                     <div class="alert alert-light border">
-                        Complete more check-ins to see your
-                        sleep trend.
+                        Keep logging your daily habits to see
+                        your sleep trend.
                     </div>
 
                 {% endif %}
@@ -585,16 +610,77 @@ Analytics | FlowState
 
 
 <!-- ======================================================
+     PERFORMANCE COMPARISON
+     ====================================================== -->
+
+<h3 class="fw-bold mt-5">
+    📊 Where You Stand
+</h3>
+
+<p class="text-muted">
+    Compare the areas that contribute to your overall
+    performance and quickly spot your strongest areas.
+</p>
+
+
+<div class="card shadow-sm mb-5">
+
+    <div class="card-body">
+
+        {% if report.charts.performance_comparison %}
+
+            <div class="text-center">
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename=report.charts.performance_comparison
+                    ) }}"
+                    class="img-fluid"
+                    style="max-width: 850px;"
+                    alt="Performance comparison"
+                >
+
+            </div>
+
+            <div class="alert alert-light border mt-3 mb-0">
+
+                <strong>Your takeaway:</strong>
+
+                Taller bars represent stronger scores.
+                Use this comparison to quickly see where
+                you're performing well and where you may
+                want to focus more attention.
+
+            </div>
+
+        {% else %}
+
+            <div class="alert alert-info mb-0">
+
+                Keep logging your daily habits to see
+                your performance comparison.
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
      DEEPER PATTERNS
      ====================================================== -->
 
 <h3 class="fw-bold mt-5">
-    🔬 Deeper Patterns
+    🔬 How Your Metrics Move Together
 </h3>
 
 <p class="text-muted">
-    Explore how different parts of your daily routine
-    tend to move together.
+    Explore which parts of your daily routine tend to
+    rise or fall together.
 </p>
 
 
@@ -603,14 +689,31 @@ Analytics | FlowState
     <div class="card-body">
 
         <h5 class="fw-bold">
-            🔗 How Your Metrics Move Together
+            🔗 Your Personal Patterns
         </h5>
 
-        <p class="text-muted">
-            This view shows relationships between the metrics
-            in your check-ins. A relationship does not necessarily
-            mean that one factor causes another.
+        <p class="text-muted small">
+            The colors show the strength and direction of
+            relationships between your metrics.
         </p>
+
+        <div class="alert alert-light border">
+
+            <strong>How to read it:</strong>
+
+            Warmer colors indicate a more positive relationship,
+            while cooler colors indicate a more negative relationship.
+            Lighter colors indicate a weaker relationship.
+
+            <br>
+
+            <span class="text-muted">
+                A relationship does not necessarily mean that
+                one factor causes another.
+            </span>
+
+        </div>
+
 
         {% if report.charts.correlation %}
 
@@ -622,15 +725,31 @@ Analytics | FlowState
                         filename=report.charts.correlation
                     ) }}"
                     class="img-fluid"
-                    alt="Correlation heatmap">
+                    style="max-width: 850px;"
+                    alt="Personal metric relationship heatmap"
+                >
+
+            </div>
+
+            <div class="alert alert-light border mt-3 mb-0">
+
+                <strong>Your takeaway:</strong>
+
+                Look for stronger colors to spot the areas
+                that tend to move together in your check-ins.
+                These patterns can help you decide what
+                relationships are worth paying attention to.
 
             </div>
 
         {% else %}
 
-            <div class="alert alert-info">
-                Complete more check-ins to explore relationships
-                between your metrics.
+            <div class="alert alert-info mb-0">
+
+                Complete more check-ins to uncover
+                relationships between your daily habits
+                and performance.
+
             </div>
 
         {% endif %}
