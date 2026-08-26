@@ -25,6 +25,7 @@ from app.services.trend_service import TrendService
 from app.services.insights_service import InsightsService
 from app.services.prediction_service import PredictionService
 
+from flask import current_app
 
 class ReportService:
     """
@@ -1182,7 +1183,8 @@ class ReportService:
         """
 
         path = (
-            self.charts_directory.parent.parent
+            Path(current_app.root_path)
+            / "static"
             / filename
         )
 
@@ -1192,6 +1194,7 @@ class ReportService:
         )
 
         return str(path)
+
 
     # =====================================================
     # Excel Export
@@ -1206,7 +1209,8 @@ class ReportService:
         """
 
         path = (
-            self.charts_directory.parent.parent
+            Path(current_app.root_path)
+            / "static"
             / filename
         )
 
@@ -1216,7 +1220,6 @@ class ReportService:
         )
 
         return str(path)
-
     # =====================================================
     # Representation
     # =====================================================

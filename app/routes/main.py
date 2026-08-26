@@ -11,6 +11,11 @@ from app.services.prediction_service import PredictionService
 from app.services.report_service import ReportService
 from app.services.trend_service import TrendService
 
+from flask import (
+    Blueprint,
+    render_template,
+    send_file
+)
 
 main_bp = Blueprint(
     "main",
@@ -78,4 +83,42 @@ def analytics():
         prediction=prediction,
 
         report=report
+    )
+
+@main_bp.route("/analytics/export/csv")
+@login_required
+def export_csv():
+
+    report = ReportService(
+        current_user.id
+    )
+
+    file_path = report.export_csv()
+
+    return send_file(
+        file_path,
+        as_attachment=True,
+        download_name="flowstate_analytics.csv",
+        mimetype="text/csv"
+    )
+
+
+@main_bp.route("/analytics/export/excel")
+@login_required
+def export_excel():
+
+    report = ReportService(
+        current_user.id
+    )
+
+    file_path = report.export_excel()
+
+    return send_file(
+        file_path,
+        as_attachment=True,
+        download_name="flowstate_analytics.xlsx",
+        mimetype=(
+            "application/vnd.openxmlformats-officedocument."
+            "spreadsheetml.sheet"
+        )
     )
