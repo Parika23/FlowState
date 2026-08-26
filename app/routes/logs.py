@@ -65,11 +65,6 @@ def new_log():
                 url_for("logs.index")
             )
 
-        # Convert RadioField response to Boolean
-        entered_flow_state = (
-            form.flow_state.data == "yes"
-        )
-
         log = DailyLog(
 
             user_id=current_user.id,
