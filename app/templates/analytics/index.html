@@ -1,777 +1,948 @@
 {% extends "base.html" %}
 
-{% block title %}
-Analytics | FlowState
-{% endblock %}
+{% block title %}Analytics | FlowState{% endblock %}
 
 {% block content %}
 
-<!-- ======================================================
-     HEADER
-     ====================================================== -->
+<div class="py-4 py-md-5">
 
-<div class="mb-5">
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
 
-    <h1 class="fw-bold">
-        📈 Performance Analytics
-    </h1>
+    <section class="mb-5">
 
-    <p class="text-muted">
-        See how your daily habits are shaping your performance
-        and what your recent patterns suggest for tomorrow.
-    </p>
+        <div class="d-flex flex-column flex-md-row
+                    justify-content-between
+                    align-items-md-end
+                    gap-3">
 
-</div>
+            <div>
 
-<div class="d-flex flex-wrap gap-2 mb-4">
+                <div class="d-flex align-items-center gap-2 mb-2">
 
-    <a
-        href="{{ url_for('main.export_csv') }}"
-        class="btn btn-outline-primary"
-    >
-        ⬇️ Download CSV
-    </a>
+                    <span class="fs-score">
+                        <i class="bi bi-bar-chart-line-fill"></i>
+                    </span>
 
-    <a
-        href="{{ url_for('main.export_excel') }}"
-        class="btn btn-outline-success"
-    >
-        📊 Download Excel
-    </a>
+                    <h1 class="fw-bold mb-0">
+                        Performance Analytics
+                    </h1>
 
-</div>
-
-<!-- ======================================================
-     PERFORMANCE OVERVIEW
-     ====================================================== -->
-
-<h3 class="fw-bold mt-5">
-    Your Performance Overview
-</h3>
-
-<p class="text-muted mb-3">
-    A snapshot of your recent performance across the areas
-    that shape your FlowState.
-</p>
-
-<div class="alert alert-light border">
-    <strong>How to read your scores:</strong>
-    All scores use a 0–100 scale. Higher scores indicate
-    stronger performance in that area.
-</div>
-
-
-<div class="row g-4 mb-5">
-
-    <!-- FlowState -->
-
-    <div class="col-md-6 col-lg">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body text-center">
-
-                <div class="fs-2 mb-2">
-                    🌊
                 </div>
-
-                <h6 class="text-muted">
-                    FlowState Index
-                </h6>
-
-                <h2 class="fw-bold">
-                    {{ analytics.average_flowstate_index }}
-                </h2>
-
-                <small class="text-muted">
-                    overall performance balance
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Productivity -->
-
-    <div class="col-md-6 col-lg">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body text-center">
-
-                <div class="fs-2 mb-2">
-                    🎯
-                </div>
-
-                <h6 class="text-muted">
-                    Productivity
-                </h6>
-
-                <h2 class="fw-bold">
-                    {{ analytics.average_productivity_score }}
-                </h2>
-
-                <small class="text-muted">
-                    getting meaningful work done
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Recovery -->
-
-    <div class="col-md-6 col-lg">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body text-center">
-
-                <div class="fs-2 mb-2">
-                    😴
-                </div>
-
-                <h6 class="text-muted">
-                    Recovery
-                </h6>
-
-                <h2 class="fw-bold">
-                    {{ analytics.average_recovery_score }}
-                </h2>
-
-                <small class="text-muted">
-                    rest and recovery capacity
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Execution -->
-
-    <div class="col-md-6 col-lg">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body text-center">
-
-                <div class="fs-2 mb-2">
-                    ⚡
-                </div>
-
-                <h6 class="text-muted">
-                    Execution
-                </h6>
-
-                <h2 class="fw-bold">
-                    {{ analytics.average_execution_score }}
-                </h2>
-
-                <small class="text-muted">
-                    turning plans into action
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Capacity -->
-
-    <div class="col-md-6 col-lg">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body text-center">
-
-                <div class="fs-2 mb-2">
-                    🧠
-                </div>
-
-                <h6 class="text-muted">
-                    Capacity
-                </h6>
-
-                <h2 class="fw-bold">
-                    {{ analytics.average_capacity_score }}
-                </h2>
-
-                <small class="text-muted">
-                    energy and mental readiness
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ======================================================
-     TOMORROW'S OUTLOOK
-     ====================================================== -->
-
-<h3 class="fw-bold">
-    🔮 Tomorrow's Outlook
-</h3>
-
-<p class="text-muted">
-    Based on your recent patterns, here's what your next
-    day may look like.
-</p>
-
-
-<div class="row g-4 mb-5">
-
-    <!-- Tomorrow FlowState -->
-
-    <div class="col-md-4">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body text-center">
-
-                <div class="fs-2 mb-2">
-                    🌊
-                </div>
-
-                <h6 class="text-muted">
-                    Tomorrow's FlowState
-                </h6>
-
-                <h2 class="fw-bold text-primary">
-                    {{ prediction.flowstate_index }}
-                </h2>
-
-                <small class="text-muted">
-                    estimated from recent patterns
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Tomorrow Productivity -->
-
-    <div class="col-md-4">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body text-center">
-
-                <div class="fs-2 mb-2">
-                    🎯
-                </div>
-
-                <h6 class="text-muted">
-                    Tomorrow's Productivity
-                </h6>
-
-                <h2 class="fw-bold text-success">
-                    {{ prediction.productivity_score }}
-                </h2>
-
-                <small class="text-muted">
-                    estimated from recent patterns
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Tomorrow Recovery -->
-
-    <div class="col-md-4">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body text-center">
-
-                <div class="fs-2 mb-2">
-                    😴
-                </div>
-
-                <h6 class="text-muted">
-                    Tomorrow's Recovery
-                </h6>
-
-                <h2 class="fw-bold text-info">
-                    {{ prediction.recovery_score }}
-                </h2>
-
-                <small class="text-muted">
-                    estimated from recent patterns
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Expected Performance -->
-
-    <div class="col-12">
-
-        <div class="card shadow-sm">
-
-            <div class="card-body text-center">
-
-                <div class="fs-2 mb-2">
-                    ✨
-                </div>
-
-                <h6 class="text-muted">
-                    Expected Performance
-                </h6>
-
-                <h3 class="fw-bold text-warning">
-                    {{ prediction.performance_label }}
-                </h3>
 
                 <p class="text-muted mb-0">
-                    An estimate based on patterns in your
-                    recent check-ins.
+                    Understand the patterns behind your performance
+                    and discover what your recent data suggests.
                 </p>
+
+            </div>
+
+
+            <div class="d-flex flex-wrap gap-2">
+
+                <a
+                    href="{{ url_for('main.export_csv') }}"
+                    class="btn btn-outline-primary"
+                >
+                    <i class="bi bi-download me-1"></i>
+                    CSV
+                </a>
+
+                <a
+                    href="{{ url_for('main.export_excel') }}"
+                    class="btn btn-outline-success"
+                >
+                    <i class="bi bi-file-earmark-spreadsheet me-1"></i>
+                    Excel
+                </a>
 
             </div>
 
         </div>
 
-    </div>
-
-</div>
+    </section>
 
 
-<!-- ======================================================
-     INSIGHTS
-     ====================================================== -->
+    <!-- =====================================================
+         PERFORMANCE OVERVIEW
+         ===================================================== -->
 
-<h3 class="fw-bold">
-    💡 What Stands Out
-</h3>
+    <section class="mb-5">
 
-<p class="text-muted">
-    Key patterns found in your recent check-ins.
-</p>
+        <div class="mb-3">
+
+            <h2 class="h4 fw-bold mb-1">
+                Your Performance Overview
+            </h2>
+
+            <p class="text-muted small mb-0">
+                A snapshot of the areas that shape your FlowState.
+            </p>
+
+        </div>
 
 
-{% if insights %}
+        <div
+            class="p-3 rounded-3 mb-4"
+            style="
+                background:#f6f5ff;
+                border:1px solid #e9e7ff;
+            "
+        >
 
-    {% for insight in insights %}
+            <div class="d-flex flex-column flex-sm-row gap-2">
 
-        <div class="card shadow-sm mb-4">
+                <strong class="small">
+                    How to read your scores:
+                </strong>
 
-            <div class="card-body">
-
-                <h4 class="fw-bold">
-
-                    {{ insight.icon }}
-                    {{ insight.title }}
-
-                </h4>
-
-                <p class="mb-0">
-                    {{ insight.message }}
-                </p>
+                <span class="text-muted small">
+                    All scores use a 0–100 scale. Higher scores indicate
+                    stronger performance in that area.
+                </span>
 
             </div>
 
         </div>
 
-    {% endfor %}
 
-{% else %}
-
-    <div class="alert alert-info">
-
-        Keep logging your daily habits to unlock
-        personalized insights.
-
-    </div>
-
-{% endif %}
+        <div class="row g-3">
 
 
-<!-- ======================================================
-     PERFORMANCE TRENDS
-     ====================================================== -->
+            <!-- FLOWSTATE -->
 
-<h3 class="fw-bold mt-5">
-    📊 Your Performance Trends
-</h3>
+            <div class="col-md-6 col-lg">
 
-<p class="text-muted">
-    See how your performance has changed over time
-    and spot meaningful patterns in your recent check-ins.
-</p>
+                <div class="card fs-card-lavender border-0 h-100">
+
+                    <div class="card-body p-4">
+
+                        <div
+                            class="d-flex
+                                   justify-content-between
+                                   align-items-start"
+                        >
+
+                            <div>
+
+                                <div class="text-muted small mb-1">
+                                    FlowState Index
+                                </div>
+
+                                <div class="display-6 fw-bold">
+                                    {{ analytics.average_flowstate_index }}
+                                </div>
+
+                            </div>
+
+                            <div class="fs-2">
+                                🌊
+                            </div>
+
+                        </div>
 
 
-<div class="row g-4 mb-5">
+                        <div class="small text-muted mt-2">
+                            overall performance balance
+                        </div>
 
-    <!-- FlowState -->
-
-    <div class="col-lg-6">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body">
-
-                <h5 class="fw-bold">
-                    🌊 FlowState Over Time
-                </h5>
-
-                <p class="text-muted small">
-                    Your overall performance balance across
-                    your recent check-ins.
-                </p>
-
-                {% if report.charts.flowstate %}
-
-                    <img
-                        src="{{ url_for(
-                            'static',
-                            filename=report.charts.flowstate
-                        ) }}"
-                        class="img-fluid w-100"
-                        alt="FlowState trend"
-                    >
-
-                    <div class="alert alert-light border mt-3 mb-0">
-                        <strong>Your takeaway:</strong>
-                        {{ report.charts.interpretations.flowstate }}
                     </div>
 
-                {% else %}
-
-                    <div class="alert alert-light border">
-                        Keep logging your daily habits to see
-                        your FlowState trend.
-                    </div>
-
-                {% endif %}
+                </div>
 
             </div>
 
-        </div>
 
-    </div>
+            <!-- PRODUCTIVITY -->
+
+            <div class="col-md-6 col-lg">
+
+                <div class="card fs-card-green border-0 h-100">
+
+                    <div class="card-body p-4">
+
+                        <div
+                            class="d-flex
+                                   justify-content-between
+                                   align-items-start"
+                        >
+
+                            <div>
+
+                                <div class="text-muted small mb-1">
+                                    Productivity
+                                </div>
+
+                                <div class="display-6 fw-bold">
+                                    {{ analytics.average_productivity_score }}
+                                </div>
+
+                            </div>
+
+                            <div class="fs-2">
+                                🎯
+                            </div>
+
+                        </div>
 
 
-    <!-- Productivity -->
+                        <div class="small text-muted mt-2">
+                            meaningful work completed
+                        </div>
 
-    <div class="col-lg-6">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body">
-
-                <h5 class="fw-bold">
-                    🎯 Productivity Over Time
-                </h5>
-
-                <p class="text-muted small">
-                    See how consistently you're getting
-                    meaningful work done.
-                </p>
-
-                {% if report.charts.productivity %}
-
-                    <img
-                        src="{{ url_for(
-                            'static',
-                            filename=report.charts.productivity
-                        ) }}"
-                        class="img-fluid w-100"
-                        alt="Productivity trend"
-                    >
-
-                    <div class="alert alert-light border mt-3 mb-0">
-                        <strong>Your takeaway:</strong>
-                        {{ report.charts.interpretations.productivity }}
                     </div>
 
-                {% else %}
-
-                    <div class="alert alert-light border">
-                        Keep logging your daily habits to see
-                        your productivity trend.
-                    </div>
-
-                {% endif %}
+                </div>
 
             </div>
 
-        </div>
 
-    </div>
+            <!-- RECOVERY -->
+
+            <div class="col-md-6 col-lg">
+
+                <div class="card fs-card-blue border-0 h-100">
+
+                    <div class="card-body p-4">
+
+                        <div
+                            class="d-flex
+                                   justify-content-between
+                                   align-items-start"
+                        >
+
+                            <div>
+
+                                <div class="text-muted small mb-1">
+                                    Recovery
+                                </div>
+
+                                <div class="display-6 fw-bold">
+                                    {{ analytics.average_recovery_score }}
+                                </div>
+
+                            </div>
+
+                            <div class="fs-2">
+                                😴
+                            </div>
+
+                        </div>
 
 
-    <!-- Recovery -->
+                        <div class="small text-muted mt-2">
+                            rest and recovery capacity
+                        </div>
 
-    <div class="col-lg-6">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body">
-
-                <h5 class="fw-bold">
-                    😴 Recovery Over Time
-                </h5>
-
-                <p class="text-muted small">
-                    Track how your recovery has changed
-                    across recent check-ins.
-                </p>
-
-                {% if report.charts.recovery %}
-
-                    <img
-                        src="{{ url_for(
-                            'static',
-                            filename=report.charts.recovery
-                        ) }}"
-                        class="img-fluid w-100"
-                        alt="Recovery trend"
-                    >
-
-                    <div class="alert alert-light border mt-3 mb-0">
-                        <strong>Your takeaway:</strong>
-                        {{ report.charts.interpretations.recovery }}
                     </div>
 
-                {% else %}
-
-                    <div class="alert alert-light border">
-                        Keep logging your daily habits to see
-                        your recovery trend.
-                    </div>
-
-                {% endif %}
+                </div>
 
             </div>
 
-        </div>
 
-    </div>
+            <!-- EXECUTION -->
+
+            <div class="col-md-6 col-lg">
+
+                <div class="card fs-card-amber border-0 h-100">
+
+                    <div class="card-body p-4">
+
+                        <div
+                            class="d-flex
+                                   justify-content-between
+                                   align-items-start"
+                        >
+
+                            <div>
+
+                                <div class="text-muted small mb-1">
+                                    Execution
+                                </div>
+
+                                <div class="display-6 fw-bold">
+                                    {{ analytics.average_execution_score }}
+                                </div>
+
+                            </div>
+
+                            <div class="fs-2">
+                                ⚡
+                            </div>
+
+                        </div>
 
 
-    <!-- Sleep -->
+                        <div class="small text-muted mt-2">
+                            turning plans into action
+                        </div>
 
-    <div class="col-lg-6">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body">
-
-                <h5 class="fw-bold">
-                    🛌 Sleep Over Time
-                </h5>
-
-                <p class="text-muted small">
-                    See how your sleep duration has changed
-                    across recent check-ins.
-                </p>
-
-                {% if report.charts.sleep %}
-
-                    <img
-                        src="{{ url_for(
-                            'static',
-                            filename=report.charts.sleep
-                        ) }}"
-                        class="img-fluid w-100"
-                        alt="Sleep trend"
-                    >
-
-                    <div class="alert alert-light border mt-3 mb-0">
-                        <strong>Your takeaway:</strong>
-                        {{ report.charts.interpretations.sleep }}
-                    </div>
-                {% else %}
-
-                    <div class="alert alert-light border">
-                        Keep logging your daily habits to see
-                        your sleep trend.
                     </div>
 
-                {% endif %}
+                </div>
 
             </div>
 
+
+            <!-- CAPACITY -->
+
+            <div class="col-md-6 col-lg">
+
+                <div class="card fs-card-violet border-0 h-100">
+
+                    <div class="card-body p-4">
+
+                        <div
+                            class="d-flex
+                                   justify-content-between
+                                   align-items-start"
+                        >
+
+                            <div>
+
+                                <div class="text-muted small mb-1">
+                                    Capacity
+                                </div>
+
+                                <div class="display-6 fw-bold">
+                                    {{ analytics.average_capacity_score }}
+                                </div>
+
+                            </div>
+
+                            <div class="fs-2">
+                                🧠
+                            </div>
+
+                        </div>
+
+
+                        <div class="small text-muted mt-2">
+                            energy and mental readiness
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
         </div>
 
-    </div>
-
-</div>
+    </section>
 
 
-<!-- ======================================================
-     PERFORMANCE COMPARISON
-     ====================================================== -->
 
-<h3 class="fw-bold mt-5">
-    📊 Where You Stand
-</h3>
+    <!-- =====================================================
+         TOMORROW'S OUTLOOK
+         ===================================================== -->
 
-<p class="text-muted">
-    Compare the areas that contribute to your overall
-    performance and quickly spot your strongest areas.
-</p>
+    <section class="mb-5">
+
+        <div class="mb-3">
+
+            <h2 class="h4 fw-bold mb-1">
+                🔮 Tomorrow's Outlook
+            </h2>
+
+            <p class="text-muted small mb-0">
+                Based on your recent patterns, here's what your next
+                day may look like.
+            </p>
+
+        </div>
 
 
-<div class="card shadow-sm mb-5">
+        <div class="row g-3">
 
-    <div class="card-body">
 
-        {% if report.charts.performance_comparison %}
+            <!-- FLOWSTATE PREDICTION -->
 
-            <div class="text-center">
+            <div class="col-md-4">
 
-                <img
-                    src="{{ url_for(
-                        'static',
-                        filename=report.charts.performance_comparison
-                    ) }}"
-                    class="img-fluid"
-                    style="max-width: 850px;"
-                    alt="Performance comparison"
+                <div class="card fs-card-lavender border-0 h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="small text-muted">
+                            Tomorrow's FlowState
+                        </div>
+
+                        <div
+                            class="display-5 fw-bold mt-1"
+                            style="color:var(--primary);"
+                        >
+                            {{ prediction.flowstate_index }}
+                        </div>
+
+                        <small class="text-muted">
+                            estimated from recent patterns
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCTIVITY PREDICTION -->
+
+            <div class="col-md-4">
+
+                <div class="card fs-card-green border-0 h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="small text-muted">
+                            Tomorrow's Productivity
+                        </div>
+
+                        <div class="display-5 fw-bold text-success mt-1">
+                            {{ prediction.productivity_score }}
+                        </div>
+
+                        <small class="text-muted">
+                            estimated from recent patterns
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECOVERY PREDICTION -->
+
+            <div class="col-md-4">
+
+                <div class="card fs-card-blue border-0 h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="small text-muted">
+                            Tomorrow's Recovery
+                        </div>
+
+                        <div class="display-5 fw-bold text-info mt-1">
+                            {{ prediction.recovery_score }}
+                        </div>
+
+                        <small class="text-muted">
+                            estimated from recent patterns
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PERFORMANCE OUTLOOK -->
+
+            <div class="col-12">
+
+                <div
+                    class="card border-0"
+                    style="
+                        background:
+                            linear-gradient(
+                                135deg,
+                                #f6f5ff,
+                                #ffffff
+                            );
+                    "
                 >
 
+                    <div class="card-body p-4">
+
+                        <div
+                            class="d-flex
+                                   flex-column
+                                   flex-md-row
+                                   align-items-md-center
+                                   justify-content-between
+                                   gap-3"
+                        >
+
+                            <div>
+
+                                <div class="text-muted small mb-1">
+                                    Expected Performance
+                                </div>
+
+                                <h3 class="fw-bold mb-1">
+                                    {{ prediction.performance_label }}
+                                </h3>
+
+                                <p class="text-muted small mb-0">
+                                    An estimate based on patterns in your
+                                    recent check-ins.
+                                </p>
+
+                            </div>
+
+
+                            <div class="fs-1">
+                                ✨
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="alert alert-light border mt-3 mb-0">
 
-                <strong>Your takeaway:</strong>
+        </div>
 
-                Taller bars represent stronger scores.
-                Use this comparison to quickly see where
-                you're performing well and where you may
-                want to focus more attention.
+    </section>
+
+
+
+    <!-- =====================================================
+         AI INSIGHT
+         ===================================================== -->
+
+    <section class="mb-5">
+
+        <div
+            class="card border-0 overflow-hidden"
+            style="
+                background:
+                    radial-gradient(
+                        circle at 15% 0%,
+                        rgba(99,102,241,.12),
+                        transparent 35%
+                    ),
+                    radial-gradient(
+                        circle at 90% 100%,
+                        rgba(139,92,246,.10),
+                        transparent 35%
+                    ),
+                    #ffffff;
+            "
+        >
+
+            <div class="card-body p-4 p-md-5">
+
+
+                <div class="d-flex align-items-start gap-3">
+
+                    <div
+                        class="fs-ai-icon flex-shrink-0"
+                        style="
+                            width:52px;
+                            height:52px;
+                        "
+                    >
+                        🤖
+                    </div>
+
+
+                    <div>
+
+                        <div
+                            class="small fw-semibold
+                                   text-uppercase mb-1"
+                            style="color:var(--primary);"
+                        >
+                            AI-Powered Analysis
+                        </div>
+
+                        <h2 class="h4 fw-bold mb-2">
+                            FlowState AI Insight
+                        </h2>
+
+                        <p class="text-muted small mb-0">
+                            A personalized interpretation of your
+                            recent productivity and lifestyle patterns.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {% if ai_insight %}
+
+                    <div
+                        class="mt-4 p-4 rounded-3"
+                        style="
+                            background:rgba(246,245,255,.85);
+                            border:1px solid #e9e7ff;
+                            white-space:pre-line;
+                        "
+                    >
+
+                        <p class="mb-0">
+                            {{ ai_insight }}
+                        </p>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="alert alert-info mt-4 mb-0">
+                        Keep logging your daily habits to unlock
+                        personalized AI insights.
+                    </div>
+
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         RULE-BASED INSIGHTS
+         ===================================================== -->
+
+    <section class="mb-5">
+
+        <div class="mb-3">
+
+            <h2 class="h4 fw-bold mb-1">
+                💡 What Stands Out
+            </h2>
+
+            <p class="text-muted small mb-0">
+                Key patterns found in your recent check-ins.
+            </p>
+
+        </div>
+
+
+        {% if insights %}
+
+            <div class="row g-3">
+
+                {% for insight in insights %}
+
+                    <div class="col-md-6">
+
+                        <div class="card border-0 h-100">
+
+                            <div class="card-body p-4">
+
+                                <div class="d-flex gap-3">
+
+                                    <div
+                                        class="fs-ai-icon flex-shrink-0"
+                                        style="
+                                            width:42px;
+                                            height:42px;
+                                        "
+                                    >
+                                        {{ insight.icon }}
+                                    </div>
+
+
+                                    <div>
+
+                                        <h3 class="h6 fw-bold mb-2">
+                                            {{ insight.title }}
+                                        </h3>
+
+                                        <p class="text-muted small mb-0">
+                                            {{ insight.message }}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
 
             </div>
 
         {% else %}
 
-            <div class="alert alert-info mb-0">
-
-                Keep logging your daily habits to see
-                your performance comparison.
-
+            <div class="alert alert-info">
+                Keep logging your daily habits to unlock
+                personalized insights.
             </div>
 
         {% endif %}
 
-    </div>
 
-</div>
-
-
-<!-- ======================================================
-     DEEPER PATTERNS
-     ====================================================== -->
-
-<h3 class="fw-bold mt-5">
-    🔬 How Your Metrics Move Together
-</h3>
-
-<p class="text-muted">
-    Explore which parts of your daily routine tend to
-    rise or fall together.
-</p>
+    </section>
 
 
-<div class="card shadow-sm mb-5">
 
-    <div class="card-body">
+    <!-- =====================================================
+         PERFORMANCE COMPARISON
+         ===================================================== -->
 
-        <h5 class="fw-bold">
-            🔗 Your Personal Patterns
-        </h5>
+    <section class="mb-5">
 
-        <p class="text-muted small">
-            The colors show the strength and direction of
-            relationships between your metrics.
-        </p>
+        <div class="mb-3">
 
-        <div class="alert alert-light border">
+            <h2 class="h4 fw-bold mb-1">
+                📊 Where You Stand
+            </h2>
 
-            <strong>How to read it:</strong>
-
-            Warmer colors indicate a more positive relationship,
-            while cooler colors indicate a more negative relationship.
-            Lighter colors indicate a weaker relationship.
-
-            <br>
-
-            <span class="text-muted">
-                A relationship does not necessarily mean that
-                one factor causes another.
-            </span>
+            <p class="text-muted small mb-0">
+                Compare the areas that contribute to your overall
+                performance and quickly spot your strongest areas.
+            </p>
 
         </div>
 
 
-        {% if report.charts.correlation %}
+        <div class="card border-0">
 
-            <div class="text-center mt-4">
+            <div class="card-body p-4">
 
-                <img
-                    src="{{ url_for(
-                        'static',
-                        filename=report.charts.correlation
-                    ) }}"
-                    class="img-fluid"
-                    style="max-width: 850px;"
-                    alt="Personal metric relationship heatmap"
+                {% if report.charts.performance_comparison %}
+
+                    <div class="text-center">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename=report.charts.performance_comparison
+                            ) }}"
+                            class="img-fluid"
+                            style="max-width:850px;"
+                            alt="Performance comparison"
+                        >
+
+                    </div>
+
+
+                    <div
+                        class="mt-4 p-3 rounded-3"
+                        style="
+                            background:#f8f8fc;
+                            border:1px solid #ececf4;
+                        "
+                    >
+
+                        <strong class="small">
+                            Your takeaway:
+                        </strong>
+
+                        <span class="text-muted small">
+                            Taller bars represent stronger scores.
+                            Use this comparison to quickly see where
+                            you're performing well and where you may
+                            want to focus more attention.
+                        </span>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="alert alert-info">
+                        Keep logging your daily habits to see
+                        your performance comparison.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         DEEPER PATTERNS
+         ===================================================== -->
+
+    <section class="mb-5">
+
+        <div class="mb-3">
+
+            <h2 class="h4 fw-bold mb-1">
+                🔬 How Your Metrics Move Together
+            </h2>
+
+            <p class="text-muted small mb-0">
+                Explore which parts of your daily routine tend to
+                rise or fall together.
+            </p>
+
+        </div>
+
+
+        <div class="card border-0">
+
+            <div class="card-body p-4">
+
+
+                <div class="d-flex align-items-start gap-3 mb-3">
+
+                    <div
+                        class="fs-ai-icon flex-shrink-0"
+                        style="
+                            width:42px;
+                            height:42px;
+                        "
+                    >
+                        🔗
+                    </div>
+
+
+                    <div>
+
+                        <h3 class="h6 fw-bold mb-1">
+                            Your Personal Patterns
+                        </h3>
+
+                        <p class="text-muted small mb-0">
+                            The colors show the strength and direction
+                            of relationships between your metrics.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="p-3 rounded-3 mb-4"
+                    style="
+                        background:#f8f8fc;
+                        border:1px solid #ececf4;
+                    "
                 >
 
+                    <strong class="small">
+                        How to read it:
+                    </strong>
+
+                    <span class="text-muted small">
+                        Warmer colors indicate a more positive relationship,
+                        while cooler colors indicate a more negative relationship.
+                        Lighter colors indicate a weaker relationship.
+                    </span>
+
+                    <div class="mt-2 text-muted small">
+                        A relationship does not necessarily mean that
+                        one factor causes another.
+                    </div>
+
+                </div>
+
+
+                {% if report.charts.correlation %}
+
+                    <div class="text-center">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename=report.charts.correlation
+                            ) }}"
+                            class="img-fluid"
+                            style="max-width:850px;"
+                            alt="Personal metric relationship heatmap"
+                        >
+
+                    </div>
+
+
+                    <div
+                        class="mt-4 p-3 rounded-3"
+                        style="
+                            background:#f8f8fc;
+                            border:1px solid #ececf4;
+                        "
+                    >
+
+                        <strong class="small">
+                            Your takeaway:
+                        </strong>
+
+                        <span class="text-muted small">
+                            Look for stronger colors to spot the areas
+                            that tend to move together in your check-ins.
+                            These patterns can help you decide what
+                            relationships are worth paying attention to.
+                        </span>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="alert alert-info mb-0">
+                        Complete more check-ins to uncover
+                        relationships between your daily habits
+                        and performance.
+                    </div>
+
+                {% endif %}
+
+
             </div>
 
-            <div class="alert alert-light border mt-3 mb-0">
+        </div>
 
-                <strong>Your takeaway:</strong>
+    </section>
 
-                Look for stronger colors to spot the areas
-                that tend to move together in your check-ins.
-                These patterns can help you decide what
-                relationships are worth paying attention to.
 
+
+    <!-- =====================================================
+         CLOSING SECTION
+         ===================================================== -->
+
+    <section
+        class="card border-0 mb-5 text-center"
+        style="
+            background:
+                linear-gradient(
+                    135deg,
+                    #f6f5ff,
+                    #ffffff
+                );
+        "
+    >
+
+        <div class="card-body py-5 px-4">
+
+            <div class="fs-2 mb-2">
+                🧠
             </div>
 
-        {% else %}
+            <h3 class="h5 fw-bold mb-2">
+                Keep Exploring Your Patterns
+            </h3>
 
-            <div class="alert alert-info mb-0">
+            <p
+                class="text-muted small mb-0 mx-auto"
+                style="max-width:620px;"
+            >
+                Use these analytics together with your daily
+                check-ins to understand what supports your
+                productivity, recovery, and overall FlowState.
+            </p>
 
-                Complete more check-ins to uncover
-                relationships between your daily habits
-                and performance.
+        </div>
 
-            </div>
+    </section>
 
-        {% endif %}
-
-    </div>
 
 </div>
 

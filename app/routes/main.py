@@ -1,4 +1,8 @@
-from flask import Blueprint, render_template
+from flask import (
+    Blueprint,
+    render_template,
+    send_file
+)
 
 from flask_login import (
     login_required,
@@ -9,13 +13,8 @@ from app.services.analytics_service import AnalyticsService
 from app.services.insights_service import InsightsService
 from app.services.prediction_service import PredictionService
 from app.services.report_service import ReportService
-from app.services.trend_service import TrendService
+from app.services.ai_insight_service import AIInsightService
 
-from flask import (
-    Blueprint,
-    render_template,
-    send_file
-)
 
 main_bp = Blueprint(
     "main",
@@ -39,9 +38,16 @@ def dashboard():
         current_user.id
     )
 
+    report = ReportService(
+        current_user.id
+    )
+
     return render_template(
         "dashboard/index.html",
-        analytics=analytics
+
+        analytics=analytics,
+
+        report=report
     )
 
 
@@ -50,10 +56,6 @@ def dashboard():
 def analytics():
 
     analytics = AnalyticsService(
-        current_user.id
-    )
-
-    trends = TrendService(
         current_user.id
     )
 
@@ -71,19 +73,32 @@ def analytics():
         current_user.id
     )
 
+    ai_service = AIInsightService()
+
+    recent_data = (
+        analytics.dataframe
+        .tail(14)
+        .to_dict(orient="records")
+    )
+
+    ai_insight = ai_service.generate_insight(
+        recent_data
+    )
+
     return render_template(
         "analytics/index.html",
 
         analytics=analytics,
 
-        trends=trends,
-
         insights=insights.insights,
 
         prediction=prediction,
 
-        report=report
+        report=report,
+
+        ai_insight=ai_insight
     )
+
 
 @main_bp.route("/analytics/export/csv")
 @login_required

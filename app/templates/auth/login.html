@@ -1,54 +1,220 @@
 {% extends "base.html" %}
 
-{% block title %}Login | FlowState{% endblock %}
+{% block title %}Sign In | FlowState{% endblock %}
 
 {% block content %}
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
+<div class="row justify-content-center align-items-center"
+     style="min-height:calc(100vh - 150px);">
 
-        <div class="card shadow-sm">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-5">
 
-            <div class="card-body">
+        <!-- =====================================================
+             LOGIN CARD
+             ===================================================== -->
 
-                <h2 class="text-center mb-4">
-                    Login
-                </h2>
+        <div
+            class="card border-0 overflow-hidden"
+            style="
+                background:
+                    radial-gradient(
+                        circle at 100% 0%,
+                        rgba(99,91,255,.10),
+                        transparent 38%
+                    ),
+                    linear-gradient(
+                        145deg,
+                        #ffffff,
+                        #faf9ff
+                    );
+            "
+        >
+
+            <div class="card-body p-4 p-md-5">
+
+
+                <!-- =================================================
+                     BRAND / HEADER
+                     ================================================= -->
+
+                <div class="text-center mb-4">
+
+                    <div
+                        class="fs-ai-icon mx-auto mb-3"
+                        style="
+                            width:54px;
+                            height:54px;
+                            border-radius:16px;
+                        "
+                    >
+
+                        <img
+                            src="{{ url_for('static', filename='images/flowstate-logo.png') }}"
+                            alt="FlowState"
+                            class="flowstate-logo"
+                        >
+                    </div>
+
+
+                    <div
+                        class="small fw-semibold text-uppercase mb-2"
+                        style="
+                            color:var(--primary);
+                            letter-spacing:.08em;
+                        "
+                    >
+                        Welcome to FlowState
+                    </div>
+
+
+                    <h1 class="h3 fw-bold mb-2">
+                        Welcome back
+                    </h1>
+
+
+                    <p class="text-muted mb-0">
+                        Sign in to continue your FlowState journey.
+                    </p>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     LOGIN FORM
+                     ================================================= -->
 
                 <form method="POST">
 
                     {{ form.hidden_tag() }}
 
-                    <div class="mb-3">
-                        {{ form.email.label(class="form-label") }}
-                        {{ form.email(class="form-control") }}
-                    </div>
+
+                    <!-- EMAIL -->
 
                     <div class="mb-3">
-                        {{ form.password.label(class="form-label") }}
-                        {{ form.password(class="form-control") }}
+
+                        {{ form.email.label(
+                            class="form-label"
+                        ) }}
+
+
+                        {{ form.email(
+                            class="form-control",
+                            placeholder="Enter your email",
+                            autocomplete="email"
+                        ) }}
+
                     </div>
+
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="mb-4">
+
+                        {{ form.password.label(
+                            class="form-label"
+                        ) }}
+
+
+                        {{ form.password(
+                            class="form-control",
+                            placeholder="Enter your password",
+                            autocomplete="current-password"
+                        ) }}
+
+                    </div>
+
+
+
+                    <!-- SUBMIT -->
 
                     <div class="d-grid">
-                        {{ form.submit(class="btn btn-primary") }}
+
+                        {{ form.submit(
+                            class="btn fs-btn fs-btn-primary py-3",
+                            value="Sign In"
+                        ) }}
+
                     </div>
 
                 </form>
 
-                <hr>
 
-                <p class="text-center mb-0">
-                    Don't have an account?
-                    <a href="{{ url_for('auth.register') }}">
-                        Register
-                    </a>
-                </p>
+
+                <!-- =================================================
+                     DIVIDER
+                     ================================================= -->
+
+                <div
+                    class="d-flex align-items-center gap-3 my-4"
+                >
+
+                    <div class="flex-grow-1 fs-divider"></div>
+
+                    <span class="text-muted small">
+                        or
+                    </span>
+
+                    <div class="flex-grow-1 fs-divider"></div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     REGISTER
+                     ================================================= -->
+
+                <div class="text-center">
+
+                    <p class="text-muted small mb-0">
+
+                        Don't have an account?
+
+                        <a
+                            href="{{ url_for('auth.register') }}"
+                            class="fw-semibold text-decoration-none"
+                            style="color:var(--primary);"
+                        >
+                            Create one
+                            <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     TRUST / PRODUCT NOTE
+                     ================================================= -->
+
+                <div
+                    class="mt-4 pt-3 text-center"
+                    style="
+                        border-top:1px solid #ececf3;
+                    "
+                >
+
+                    <small class="text-muted">
+
+                        <i class="bi bi-shield-check me-1"></i>
+
+                        Your productivity journey, all in one place.
+
+                    </small>
+
+                </div>
+
 
             </div>
 
         </div>
 
     </div>
+
 </div>
 
 {% endblock %}

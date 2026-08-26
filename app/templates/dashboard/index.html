@@ -1,605 +1,1459 @@
 {% extends "base.html" %}
 
-{% block title %}
-Performance Dashboard | FlowState
-{% endblock %}
+{% block title %}Performance Dashboard | FlowState{% endblock %}
 
 {% block content %}
 
-<!-- ======================================================
-     WELCOME
-     ====================================================== -->
-
-<div class="mb-5">
-
-    <h1 class="fw-bold">
-        Welcome back, {{ current_user.username|title }} 👋
-    </h1>
-
-    <p class="text-muted">
-        A quick look at your current performance, daily habits,
-        and the areas that deserve your attention.
-    </p>
-
-</div>
+<div class="py-2 py-md-3">
 
 
-<!-- ======================================================
-     FLOWSTATE HERO
-     ====================================================== -->
+    <!-- =====================================================
+         DASHBOARD HEADER
+         ===================================================== -->
 
-<div class="card border-0 shadow-sm mb-5">
+    <section class="mb-4">
 
-    <div class="card-body text-center py-5">
+        <div class="d-flex flex-column flex-lg-row
+                    justify-content-between
+                    align-items-lg-end
+                    gap-3">
 
-        <div class="fs-1 mb-2">
-            🌊
-        </div>
+            <div>
 
-        <p class="text-uppercase text-muted mb-1">
-            Your FlowState
-        </p>
-
-        <h1 class="display-2 fw-bold text-primary mb-1">
-            {{ analytics.average_flowstate_index }}
-        </h1>
-
-        <h4 class="fw-bold mb-3">
-            Overall Performance
-        </h4>
-
-        <p class="text-muted mb-0">
-            A combined view of your recovery, capacity, focus,
-            productivity, and sustainability.
-        </p>
-
-    </div>
-
-</div>
-
-
-<!-- ======================================================
-     KEY PERFORMANCE AREAS
-     ====================================================== -->
-
-<div class="mb-4">
-
-    <h3 class="fw-bold">
-        Your Key Performance Areas
-    </h3>
-
-    <p class="text-muted">
-        A quick view of the areas shaping your current performance.
-    </p>
-
-</div>
-
-
-<div class="row g-4 mb-5">
-
-
-    <!-- Recovery -->
-
-    <div class="col-md-6 col-lg-4">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body">
-
-                <div class="d-flex justify-content-between align-items-center mb-2">
-
-                    <h5 class="mb-0">
-                        😴 Recovery
-                    </h5>
-
-                    <strong>
-                        {{ analytics.average_recovery_score }}
-                    </strong>
-
+                <div
+                    class="small fw-semibold text-uppercase mb-2"
+                    style="
+                        color: var(--primary);
+                        letter-spacing: .08em;
+                    "
+                >
+                    Your performance space
                 </div>
 
-                <div class="progress mb-3">
-
-                    <div
-                        class="progress-bar bg-success"
-                        role="progressbar"
-                        style="width: {{ analytics.average_recovery_score }}%;"
-                        aria-valuenow="{{ analytics.average_recovery_score }}"
-                        aria-valuemin="0"
-                        aria-valuemax="100">
-                    </div>
-
-                </div>
-
-                <small class="text-muted">
-                    Rest, sleep, hydration, and physical recovery.
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Capacity -->
-
-    <div class="col-md-6 col-lg-4">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body">
-
-                <div class="d-flex justify-content-between align-items-center mb-2">
-
-                    <h5 class="mb-0">
-                        🧠 Capacity
-                    </h5>
-
-                    <strong>
-                        {{ analytics.average_capacity_score }}
-                    </strong>
-
-                </div>
-
-                <div class="progress mb-3">
-
-                    <div
-                        class="progress-bar bg-warning"
-                        role="progressbar"
-                        style="width: {{ analytics.average_capacity_score }}%;"
-                        aria-valuenow="{{ analytics.average_capacity_score }}"
-                        aria-valuemin="0"
-                        aria-valuemax="100">
-                    </div>
-
-                </div>
-
-                <small class="text-muted">
-                    Your energy and mental readiness.
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Focus -->
-
-    <div class="col-md-6 col-lg-4">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body">
-
-                <div class="d-flex justify-content-between align-items-center mb-2">
-
-                    <h5 class="mb-0">
-                        🎯 Focus
-                    </h5>
-
-                    <strong>
-                        {{ analytics.average_focus_investment_score }}
-                    </strong>
-
-                </div>
-
-                <div class="progress mb-3">
-
-                    <div
-                        class="progress-bar bg-info"
-                        role="progressbar"
-                        style="width: {{ analytics.average_focus_investment_score }}%;"
-                        aria-valuenow="{{ analytics.average_focus_investment_score }}"
-                        aria-valuemin="0"
-                        aria-valuemax="100">
-                    </div>
-
-                </div>
-
-                <small class="text-muted">
-                    How effectively you're investing your attention.
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Productivity -->
-
-    <div class="col-md-6 col-lg-4">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body">
-
-                <div class="d-flex justify-content-between align-items-center mb-2">
-
-                    <h5 class="mb-0">
-                        📈 Productivity
-                    </h5>
-
-                    <strong>
-                        {{ analytics.average_productivity_score }}
-                    </strong>
-
-                </div>
-
-                <div class="progress mb-3">
-
-                    <div
-                        class="progress-bar bg-primary"
-                        role="progressbar"
-                        style="width: {{ analytics.average_productivity_score }}%;"
-                        aria-valuenow="{{ analytics.average_productivity_score }}"
-                        aria-valuemin="0"
-                        aria-valuemax="100">
-                    </div>
-
-                </div>
-
-                <small class="text-muted">
-                    How effectively you're getting meaningful work done.
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Execution -->
-
-    <div class="col-md-6 col-lg-4">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body">
-
-                <div class="d-flex justify-content-between align-items-center mb-2">
-
-                    <h5 class="mb-0">
-                        ⚡ Execution
-                    </h5>
-
-                    <strong>
-                        {{ analytics.average_execution_score }}
-                    </strong>
-
-                </div>
-
-                <div class="progress mb-3">
-
-                    <div
-                        class="progress-bar bg-dark"
-                        role="progressbar"
-                        style="width: {{ analytics.average_execution_score }}%;"
-                        aria-valuenow="{{ analytics.average_execution_score }}"
-                        aria-valuemin="0"
-                        aria-valuemax="100">
-                    </div>
-
-                </div>
-
-                <small class="text-muted">
-                    How consistently your plans turn into action.
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Sustainability -->
-
-    <div class="col-md-6 col-lg-4">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body">
-
-                <div class="d-flex justify-content-between align-items-center mb-2">
-
-                    <h5 class="mb-0">
-                        🌱 Sustainability
-                    </h5>
-
-                    <strong>
-                        {{ analytics.average_sustainability_score }}
-                    </strong>
-
-                </div>
-
-                <div class="progress mb-3">
-
-                    <div
-                        class="progress-bar bg-success"
-                        role="progressbar"
-                        style="width: {{ analytics.average_sustainability_score }}%;"
-                        aria-valuenow="{{ analytics.average_sustainability_score }}"
-                        aria-valuemin="0"
-                        aria-valuemax="100">
-                    </div>
-
-                </div>
-
-                <small class="text-muted">
-                    Whether your current pace is realistic to maintain.
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ======================================================
-     WHAT STANDS OUT
-     ====================================================== -->
-
-<div class="mb-4">
-
-    <h3 class="fw-bold">
-        ✨ What Stands Out
-    </h3>
-
-    <p class="text-muted">
-        A quick interpretation of your current performance.
-    </p>
-
-</div>
-
-
-<div class="row g-4 mb-5">
-
-
-    <!-- Strongest Area -->
-
-    <div class="col-md-6">
-
-        <div class="card shadow-sm h-100">
-
-            <div class="card-body">
-
-                <h5 class="fw-bold">
-                    💪 Your Strongest Area
-                </h5>
-
-                <p class="text-muted mb-0">
-                    Your current performance is being supported
-                    by the areas where your scores are strongest.
-                    Visit Analytics for a detailed breakdown.
+                <h1 class="mb-2">
+                    Welcome back,
+                    {{ current_user.username|title }} 👋
+                </h1>
+
+                <p class="mb-0"
+                   style="max-width:650px;">
+                    A clear snapshot of your performance,
+                    habits, and the patterns shaping your best days.
                 </p>
 
             </div>
 
+
+            <a
+                href="{{ url_for('logs.new_log') }}"
+                class="btn fs-btn fs-btn-primary px-4"
+            >
+                <i class="bi bi-plus-lg"></i>
+                New Check-In
+            </a>
+
         </div>
 
-    </div>
+    </section>
 
 
-    <!-- Opportunity -->
 
-    <div class="col-md-6">
+    {% if analytics.total_checkins > 0 %}
 
-        <div class="card shadow-sm h-100">
 
-            <div class="card-body">
+        <!-- =================================================
+             MAIN FLOWSTATE HERO
+             ================================================= -->
 
-                <h5 class="fw-bold">
-                    👀 Room to Improve
-                </h5>
+        <section
+            class="fs-hero mb-5"
+            style="padding:0;"
+        >
 
-                <p class="text-muted mb-0">
-                    Small improvements in your weaker areas can
-                    help strengthen your overall FlowState.
-                    Visit Analytics to explore your patterns.
+            <div class="p-4 p-md-5">
+
+                <div class="row align-items-center g-4">
+
+
+                    <!-- SCORE -->
+
+                    <div class="col-lg-7">
+
+                        <div class="d-flex align-items-center
+                                    gap-3 mb-3">
+
+                            <div
+                                class="fs-ai-icon"
+                                style="
+                                    width:52px;
+                                    height:52px;
+                                    border-radius:15px;
+                                "
+                            >
+
+                                <img
+                                    src="{{ url_for('static', filename='images/flowstate-logo.png') }}"
+                                    alt="FlowState"
+                                    class="flowstate-logo"
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="fs-score-label">
+                                    Your FlowState
+                                </div>
+
+                                <div class="small text-muted">
+                                    Overall performance
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="fw-bold mb-2"
+                            style="
+                                font-size:clamp(3.5rem,7vw,5.5rem);
+                                line-height:.95;
+                                letter-spacing:-.07em;
+                                background:
+                                    linear-gradient(
+                                        135deg,
+                                        var(--primary),
+                                        var(--primary-light)
+                                    );
+                                -webkit-background-clip:text;
+                                -webkit-text-fill-color:transparent;
+                                background-clip:text;
+                            "
+                        >
+                            {{ analytics.average_flowstate_index }}
+                        </div>
+
+
+                        <h2 class="h5 mb-2">
+                            Overall Performance
+                        </h2>
+
+
+                        <p class="small mb-0"
+                           style="max-width:540px;">
+
+                            A combined view of your recovery,
+                            capacity, focus, productivity, and
+                            sustainability.
+
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- SUPPORTING METRICS -->
+
+                    <div class="col-lg-5">
+
+                        <div
+                            class="p-3 p-md-4 rounded-4"
+                            style="
+                                background:rgba(255,255,255,.68);
+                                border:1px solid
+                                    rgba(225,222,255,.9);
+                            "
+                        >
+
+                            <div class="small fw-semibold mb-3">
+                                Recent snapshot
+                            </div>
+
+
+                            <div class="row g-3">
+
+
+                                <div class="col-6">
+
+                                    <div class="small text-muted">
+                                        Productivity
+                                    </div>
+
+                                    <div class="fw-bold fs-5">
+                                        {{ analytics.average_productivity_score }}
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-6">
+
+                                    <div class="small text-muted">
+                                        Recovery
+                                    </div>
+
+                                    <div class="fw-bold fs-5">
+                                        {{ analytics.average_recovery_score }}
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-6">
+
+                                    <div class="small text-muted">
+                                        Focus
+                                    </div>
+
+                                    <div class="fw-bold fs-5">
+                                        {{ analytics.average_focus_investment_score }}
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-6">
+
+                                    <div class="small text-muted">
+                                        Check-ins
+                                    </div>
+
+                                    <div class="fw-bold fs-5">
+                                        {{ analytics.total_checkins }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             KEY PERFORMANCE AREAS
+             ================================================= -->
+
+        <section class="mb-5">
+
+            <div class="mb-4">
+
+                <div class="fs-section-title">
+                    <span>✦</span>
+                    Your Performance Areas
+                </div>
+
+                <div class="fs-section-subtitle">
+                    The six dimensions shaping your current FlowState.
+                </div>
+
+            </div>
+
+
+            <div class="row g-3">
+
+
+                <!-- RECOVERY -->
+
+                <div class="col-md-6 col-xl-4">
+
+                    <div
+                        class="card fs-card-green h-100 border-0"
+                    >
+
+                        <div class="card-body p-4">
+
+                            <div
+                                class="d-flex
+                                       justify-content-between
+                                       align-items-center
+                                       mb-3"
+                            >
+
+                                <span class="fw-semibold">
+                                    😴 Recovery
+                                </span>
+
+                                <span class="fw-bold">
+                                    {{ analytics.average_recovery_score }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="progress mb-3"
+                                 style="
+                                    height:7px;
+                                    background:#e3f0e8;
+                                 ">
+
+                                <div
+                                    class="progress-bar"
+                                    style="
+                                        width:
+                                        {{ analytics.average_recovery_score }}%;
+                                        background:
+                                        linear-gradient(
+                                            90deg,
+                                            #18a66d,
+                                            #48c98d
+                                        );
+                                    "
+                                ></div>
+
+                            </div>
+
+
+                            <p class="small mb-0">
+                                Rest, sleep, hydration, and
+                                physical recovery.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CAPACITY -->
+
+                <div class="col-md-6 col-xl-4">
+
+                    <div
+                        class="card fs-card-amber h-100 border-0"
+                    >
+
+                        <div class="card-body p-4">
+
+                            <div
+                                class="d-flex
+                                       justify-content-between
+                                       align-items-center
+                                       mb-3"
+                            >
+
+                                <span class="fw-semibold">
+                                    🧠 Capacity
+                                </span>
+
+                                <span class="fw-bold">
+                                    {{ analytics.average_capacity_score }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="progress mb-3"
+                                 style="
+                                    height:7px;
+                                    background:#f5ecd4;
+                                 ">
+
+                                <div
+                                    class="progress-bar"
+                                    style="
+                                        width:
+                                        {{ analytics.average_capacity_score }}%;
+                                        background:
+                                        linear-gradient(
+                                            90deg,
+                                            #e5a719,
+                                            #f5c54b
+                                        );
+                                    "
+                                ></div>
+
+                            </div>
+
+
+                            <p class="small mb-0">
+                                Your energy and mental readiness.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- FOCUS -->
+
+                <div class="col-md-6 col-xl-4">
+
+                    <div
+                        class="card fs-card-blue h-100 border-0"
+                    >
+
+                        <div class="card-body p-4">
+
+                            <div
+                                class="d-flex
+                                       justify-content-between
+                                       align-items-center
+                                       mb-3"
+                            >
+
+                                <span class="fw-semibold">
+                                    🎯 Focus
+                                </span>
+
+                                <span class="fw-bold">
+                                    {{ analytics.average_focus_investment_score }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="progress mb-3"
+                                 style="
+                                    height:7px;
+                                    background:#e3edf9;
+                                 ">
+
+                                <div
+                                    class="progress-bar"
+                                    style="
+                                        width:
+                                        {{ analytics.average_focus_investment_score }}%;
+                                        background:
+                                        linear-gradient(
+                                            90deg,
+                                            #4f8edc,
+                                            #6da7ed
+                                        );
+                                    "
+                                ></div>
+
+                            </div>
+
+
+                            <p class="small mb-0">
+                                How effectively you're investing
+                                your attention.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PRODUCTIVITY -->
+
+                <div class="col-md-6 col-xl-4">
+
+                    <div
+                        class="card fs-card-lavender h-100 border-0"
+                    >
+
+                        <div class="card-body p-4">
+
+                            <div
+                                class="d-flex
+                                       justify-content-between
+                                       align-items-center
+                                       mb-3"
+                            >
+
+                                <span class="fw-semibold">
+                                    📈 Productivity
+                                </span>
+
+                                <span class="fw-bold">
+                                    {{ analytics.average_productivity_score }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="progress mb-3"
+                                 style="
+                                    height:7px;
+                                    background:#e9e7fa;
+                                 ">
+
+                                <div
+                                    class="progress-bar"
+                                    style="
+                                        width:
+                                        {{ analytics.average_productivity_score }}%;
+                                        background:
+                                        linear-gradient(
+                                            90deg,
+                                            var(--primary),
+                                            var(--primary-light)
+                                        );
+                                    "
+                                ></div>
+
+                            </div>
+
+
+                            <p class="small mb-0">
+                                How effectively you're getting
+                                meaningful work done.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- EXECUTION -->
+
+                <div class="col-md-6 col-xl-4">
+
+                    <div
+                        class="card fs-card-indigo h-100 border-0"
+                    >
+
+                        <div class="card-body p-4">
+
+                            <div
+                                class="d-flex
+                                       justify-content-between
+                                       align-items-center
+                                       mb-3"
+                            >
+
+                                <span class="fw-semibold">
+                                    ⚡ Execution
+                                </span>
+
+                                <span class="fw-bold">
+                                    {{ analytics.average_execution_score }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="progress mb-3"
+                                 style="
+                                    height:7px;
+                                    background:#e8e8f6;
+                                 ">
+
+                                <div
+                                    class="progress-bar"
+                                    style="
+                                        width:
+                                        {{ analytics.average_execution_score }}%;
+                                        background:
+                                        linear-gradient(
+                                            90deg,
+                                            #596174,
+                                            #8a93a5
+                                        );
+                                    "
+                                ></div>
+
+                            </div>
+
+
+                            <p class="small mb-0">
+                                How consistently your plans
+                                turn into action.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- SUSTAINABILITY -->
+
+                <div class="col-md-6 col-xl-4">
+
+                    <div
+                        class="card fs-card-teal h-100 border-0"
+                    >
+
+                        <div class="card-body p-4">
+
+                            <div
+                                class="d-flex
+                                       justify-content-between
+                                       align-items-center
+                                       mb-3"
+                            >
+
+                                <span class="fw-semibold">
+                                    🌱 Sustainability
+                                </span>
+
+                                <span class="fw-bold">
+                                    {{ analytics.average_sustainability_score }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="progress mb-3"
+                                 style="
+                                    height:7px;
+                                    background:#e1efed;
+                                 ">
+
+                                <div
+                                    class="progress-bar"
+                                    style="
+                                        width:
+                                        {{ analytics.average_sustainability_score }}%;
+                                        background:
+                                        linear-gradient(
+                                            90deg,
+                                            #168b6c,
+                                            #45b894
+                                        );
+                                    "
+                                ></div>
+
+                            </div>
+
+
+                            <p class="small mb-0">
+                                Whether your current pace is
+                                realistic to maintain.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             WHAT STANDS OUT
+             ================================================= -->
+
+        <section class="mb-5">
+
+            <div class="mb-4">
+
+                <div class="fs-section-title">
+                    <span>✦</span>
+                    What Stands Out
+                </div>
+
+                <div class="fs-section-subtitle">
+                    A quick interpretation of your current performance.
+                </div>
+
+            </div>
+
+
+            <div class="row g-3">
+
+
+                <div class="col-lg-6">
+
+                    <div
+                        class="card fs-card-green h-100 border-0"
+                    >
+
+                        <div class="card-body p-4">
+
+                            <div
+                                class="d-flex align-items-center
+                                       gap-3 mb-3"
+                            >
+
+                                <div
+                                    class="rounded-3
+                                           d-inline-flex
+                                           align-items-center
+                                           justify-content-center"
+                                    style="
+                                        width:42px;
+                                        height:42px;
+                                        background:#e7f7ef;
+                                    "
+                                >
+                                    💪
+                                </div>
+
+                                <div>
+
+                                    <div class="fw-bold">
+                                        Your Strongest Area
+                                    </div>
+
+                                    <small class="text-muted">
+                                        What's supporting your performance
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <p class="small mb-0">
+                                Your current performance is being
+                                supported by the areas where your
+                                scores are strongest. Visit Analytics
+                                for a detailed breakdown.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-lg-6">
+
+                    <div
+                        class="card fs-card-violet h-100 border-0"
+                    >
+
+                        <div class="card-body p-4">
+
+                            <div
+                                class="d-flex align-items-center
+                                       gap-3 mb-3"
+                            >
+
+                                <div
+                                    class="rounded-3
+                                           d-inline-flex
+                                           align-items-center
+                                           justify-content-center"
+                                    style="
+                                        width:42px;
+                                        height:42px;
+                                        background:#f0e9ff;
+                                    "
+                                >
+                                    👀
+                                </div>
+
+                                <div>
+
+                                    <div class="fw-bold">
+                                        Room to Improve
+                                    </div>
+
+                                    <small class="text-muted">
+                                        Where small changes can help
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <p class="small mb-0">
+                                Small improvements in your weaker
+                                areas can help strengthen your overall
+                                FlowState. Visit Analytics to explore
+                                your patterns.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             DAILY SNAPSHOT
+             ================================================= -->
+
+        <section class="mb-5">
+
+            <div class="mb-4">
+
+                <div class="fs-section-title">
+                    <span>◫</span>
+                    Your Daily Snapshot
+                </div>
+
+                <div class="fs-section-subtitle">
+                    The everyday habits behind your performance.
+                </div>
+
+            </div>
+
+
+            <div
+                class="card fs-card-lavender border-0"
+            >
+
+                <div class="card-body p-3">
+
+                    <div class="row g-0">
+
+
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="p-3">
+                                <div class="small text-muted mb-1">
+                                    😴 Sleep
+                                </div>
+                                <div class="fw-bold">
+                                    {{ analytics.average_sleep }} hrs
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="p-3">
+                                <div class="small text-muted mb-1">
+                                    🎯 Focus
+                                </div>
+                                <div class="fw-bold">
+                                    {{ analytics.average_focus }} hrs
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="p-3">
+                                <div class="small text-muted mb-1">
+                                    ⚡ Energy
+                                </div>
+                                <div class="fw-bold">
+                                    {{ analytics.average_energy }}/10
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="p-3">
+                                <div class="small text-muted mb-1">
+                                    😊 Mood
+                                </div>
+                                <div class="fw-bold">
+                                    {{ analytics.average_mood }}/10
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="p-3">
+                                <div class="small text-muted mb-1">
+                                    😰 Stress
+                                </div>
+                                <div class="fw-bold">
+                                    {{ analytics.average_stress }}/10
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="p-3">
+                                <div class="small text-muted mb-1">
+                                    💧 Water
+                                </div>
+                                <div class="fw-bold">
+                                    {{ analytics.average_water }} L
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="p-3">
+                                <div class="small text-muted mb-1">
+                                    🏃 Exercise
+                                </div>
+                                <div class="fw-bold">
+                                    {{ analytics.average_exercise }} mins
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="p-3">
+                                <div class="small text-muted mb-1">
+                                    📱 Screen Time
+                                </div>
+                                <div class="fw-bold">
+                                    {{ analytics.average_screen_time }} hrs
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="p-3">
+                                <div class="small text-muted mb-1">
+                                    ✅ Task Completion
+                                </div>
+                                <div class="fw-bold">
+                                    {{ analytics.average_completion }}%
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="p-3">
+                                <div class="small text-muted mb-1">
+                                    🌊 Full-Flow Days
+                                </div>
+                                <div class="fw-bold">
+                                    {{ analytics.flow_state_percentage }}%
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="p-3">
+                                <div class="small text-muted mb-1">
+                                    📅 Check-ins
+                                </div>
+                                <div class="fw-bold">
+                                    {{ analytics.total_checkins }}
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PERFORMANCE TRENDS
+             ================================================= -->
+
+        <section class="mb-5">
+
+            <div class="d-flex flex-column
+                        flex-md-row
+                        justify-content-between
+                        align-items-md-end
+                        gap-2 mb-4">
+
+                <div>
+
+                    <div class="fs-section-title">
+                        <span>⌁</span>
+                        Performance Trends
+                    </div>
+
+                    <div class="fs-section-subtitle mb-0">
+                        See how your performance and lifestyle
+                        patterns move over time.
+                    </div>
+
+                </div>
+
+
+                <span
+                    class="badge rounded-pill"
+                    style="
+                        background:#eeecff;
+                        color:#5b54df;
+                    "
+                >
+                    4 key trends
+                </span>
+
+            </div>
+
+
+            <div class="row g-4">
+
+
+                <!-- FLOWSTATE -->
+
+                <div class="col-lg-6">
+
+                    <div
+                        class="card fs-card h-100 border-0"
+                    >
+
+                        <div class="card-body p-3 p-md-4">
+
+                            <div
+                                class="d-flex
+                                       justify-content-between
+                                       align-items-center
+                                       mb-3"
+                            >
+
+                                <div class="fw-bold">
+                                    🌊 FlowState Over Time
+                                </div>
+
+                                <span
+                                    class="small text-muted"
+                                >
+                                    Trend
+                                </span>
+
+                            </div>
+
+
+                            {% if report.charts.flowstate %}
+
+                                <div
+                                    class="fs-chart mb-3"
+                                    style="padding:8px;"
+                                >
+
+                                    <img
+                                        src="{{ url_for(
+                                            'static',
+                                            filename=report.charts.flowstate
+                                        ) }}"
+                                        class="img-fluid w-100"
+                                        alt="FlowState over time"
+                                    >
+
+                                </div>
+
+
+                                <div
+                                    class="p-3 rounded-3"
+                                    style="
+                                        background:#f8f7ff;
+                                        border:1px solid #ebe9fa;
+                                    "
+                                >
+
+                                    <div
+                                        class="small fw-bold mb-1"
+                                        style="color:var(--primary);"
+                                    >
+                                        Your takeaway
+                                    </div>
+
+                                    <p class="small mb-0">
+                                        {{ report.charts.interpretations.flowstate }}
+                                    </p>
+
+                                </div>
+
+                            {% else %}
+
+                                <div class="alert alert-light mb-0">
+                                    Complete more check-ins to see
+                                    your FlowState trend.
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PRODUCTIVITY -->
+
+                <div class="col-lg-6">
+
+                    <div
+                        class="card fs-card h-100 border-0"
+                    >
+
+                        <div class="card-body p-3 p-md-4">
+
+                            <div
+                                class="d-flex
+                                       justify-content-between
+                                       align-items-center
+                                       mb-3"
+                            >
+
+                                <div class="fw-bold">
+                                    📈 Productivity Over Time
+                                </div>
+
+                                <span class="small text-muted">
+                                    Trend
+                                </span>
+
+                            </div>
+
+
+                            {% if report.charts.productivity %}
+
+                                <div
+                                    class="fs-chart mb-3"
+                                    style="padding:8px;"
+                                >
+
+                                    <img
+                                        src="{{ url_for(
+                                            'static',
+                                            filename=report.charts.productivity
+                                        ) }}"
+                                        class="img-fluid w-100"
+                                        alt="Productivity over time"
+                                    >
+
+                                </div>
+
+
+                                <div
+                                    class="p-3 rounded-3"
+                                    style="
+                                        background:#f8f7ff;
+                                        border:1px solid #ebe9fa;
+                                    "
+                                >
+
+                                    <div
+                                        class="small fw-bold mb-1"
+                                        style="color:var(--primary);"
+                                    >
+                                        Your takeaway
+                                    </div>
+
+                                    <p class="small mb-0">
+                                        {{ report.charts.interpretations.productivity }}
+                                    </p>
+
+                                </div>
+
+                            {% else %}
+
+                                <div class="alert alert-light mb-0">
+                                    Complete more check-ins to see
+                                    your productivity trend.
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- RECOVERY -->
+
+                <div class="col-lg-6">
+
+                    <div
+                        class="card fs-card h-100 border-0"
+                    >
+
+                        <div class="card-body p-3 p-md-4">
+
+                            <div
+                                class="d-flex
+                                       justify-content-between
+                                       align-items-center
+                                       mb-3"
+                            >
+
+                                <div class="fw-bold">
+                                    😴 Recovery Over Time
+                                </div>
+
+                                <span class="small text-muted">
+                                    Trend
+                                </span>
+
+                            </div>
+
+
+                            {% if report.charts.recovery %}
+
+                                <div
+                                    class="fs-chart mb-3"
+                                    style="padding:8px;"
+                                >
+
+                                    <img
+                                        src="{{ url_for(
+                                            'static',
+                                            filename=report.charts.recovery
+                                        ) }}"
+                                        class="img-fluid w-100"
+                                        alt="Recovery over time"
+                                    >
+
+                                </div>
+
+
+                                <div
+                                    class="p-3 rounded-3"
+                                    style="
+                                        background:#f4fbf7;
+                                        border:1px solid #e0f0e7;
+                                    "
+                                >
+
+                                    <div
+                                        class="small fw-bold mb-1"
+                                        style="color:#16845a;"
+                                    >
+                                        Your takeaway
+                                    </div>
+
+                                    <p class="small mb-0">
+                                        {{ report.charts.interpretations.recovery }}
+                                    </p>
+
+                                </div>
+
+                            {% else %}
+
+                                <div class="alert alert-light mb-0">
+                                    Complete more check-ins to see
+                                    your recovery trend.
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- SLEEP -->
+
+                <div class="col-lg-6">
+
+                    <div
+                        class="card fs-card h-100 border-0"
+                    >
+
+                        <div class="card-body p-3 p-md-4">
+
+                            <div
+                                class="d-flex
+                                       justify-content-between
+                                       align-items-center
+                                       mb-3"
+                            >
+
+                                <div class="fw-bold">
+                                    🛏️ Sleep Over Time
+                                </div>
+
+                                <span class="small text-muted">
+                                    Trend
+                                </span>
+
+                            </div>
+
+
+                            {% if report.charts.sleep %}
+
+                                <div
+                                    class="fs-chart mb-3"
+                                    style="padding:8px;"
+                                >
+
+                                    <img
+                                        src="{{ url_for(
+                                            'static',
+                                            filename=report.charts.sleep
+                                        ) }}"
+                                        class="img-fluid w-100"
+                                        alt="Sleep over time"
+                                    >
+
+                                </div>
+
+
+                                <div
+                                    class="p-3 rounded-3"
+                                    style="
+                                        background:#f5f9ff;
+                                        border:1px solid #e2ebf8;
+                                    "
+                                >
+
+                                    <div
+                                        class="small fw-bold mb-1"
+                                        style="color:#4f78b7;"
+                                    >
+                                        Your takeaway
+                                    </div>
+
+                                    <p class="small mb-0">
+                                        {{ report.charts.interpretations.sleep }}
+                                    </p>
+
+                                </div>
+
+                            {% else %}
+
+                                <div class="alert alert-light mb-0">
+                                    Complete more check-ins to see
+                                    your sleep trend.
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             GO DEEPER
+             ================================================= -->
+
+        <section class="fs-cta mb-4">
+
+            <div class="py-5 px-4 text-center">
+
+                <div
+                    class="fs-ai-icon mx-auto mb-3"
+                    style="
+                        width:48px;
+                        height:48px;
+                    "
+                >
+                    🔎
+                </div>
+
+
+                <h2 class="h4 fw-bold mb-2">
+                    Want to understand your patterns?
+                </h2>
+
+
+                <p
+                    class="small text-muted
+                           mx-auto mb-4"
+                    style="max-width:620px;"
+                >
+                    Explore deeper insights, relationships between
+                    your metrics, and tomorrow's outlook on the
+                    Analytics page.
                 </p>
 
+
+                <a
+                    href="{{ url_for('main.analytics') }}"
+                    class="btn fs-btn fs-btn-primary px-4"
+                >
+                    Explore Analytics
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+
             </div>
 
-        </div>
+        </section>
 
-    </div>
+
+    {% else %}
+
+
+        <!-- =================================================
+             EMPTY STATE
+             ================================================= -->
+
+        <section
+            class="fs-hero text-center py-5 px-4"
+        >
+
+            <div
+                class="fs-ai-icon mx-auto mb-4"
+                style="
+                    width:58px;
+                    height:58px;
+                    font-size:1.4rem;
+                "
+            >
+                🌱
+            </div>
+
+
+            <h2 class="fw-bold mb-2">
+                Your FlowState journey starts today.
+            </h2>
+
+
+            <p
+                class="text-muted mx-auto mb-4"
+                style="max-width:600px;"
+            >
+                Complete your first Daily Check-In to start
+                discovering your personal performance patterns.
+            </p>
+
+
+            <a
+                href="{{ url_for('logs.new_log') }}"
+                class="btn fs-btn fs-btn-primary px-4"
+            >
+                Complete Today's Check-In
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </section>
+
+
+    {% endif %}
+
 
 </div>
-
-
-<!-- ======================================================
-     DAILY SNAPSHOT
-     ====================================================== -->
-
-<div class="mb-4">
-
-    <h3 class="fw-bold">
-        📋 Your Daily Snapshot
-    </h3>
-
-    <p class="text-muted">
-        The everyday habits behind your performance.
-    </p>
-
-</div>
-
-
-<div class="card shadow-sm mb-5">
-
-    <div class="card-body">
-
-        <div class="row">
-
-            <div class="col-md-4 col-lg-3 mb-4">
-                😴 Sleep
-                <br>
-                <strong>
-                    {{ analytics.average_sleep }} hrs
-                </strong>
-            </div>
-
-            <div class="col-md-4 col-lg-3 mb-4">
-                🎯 Focus
-                <br>
-                <strong>
-                    {{ analytics.average_focus }} hrs
-                </strong>
-            </div>
-
-            <div class="col-md-4 col-lg-3 mb-4">
-                ⚡ Energy
-                <br>
-                <strong>
-                    {{ analytics.average_energy }}/10
-                </strong>
-            </div>
-
-            <div class="col-md-4 col-lg-3 mb-4">
-                😊 Mood
-                <br>
-                <strong>
-                    {{ analytics.average_mood }}/10
-                </strong>
-            </div>
-
-            <div class="col-md-4 col-lg-3 mb-4">
-                😰 Stress
-                <br>
-                <strong>
-                    {{ analytics.average_stress }}/10
-                </strong>
-            </div>
-
-            <div class="col-md-4 col-lg-3 mb-4">
-                💧 Water
-                <br>
-                <strong>
-                    {{ analytics.average_water }} L
-                </strong>
-            </div>
-
-            <div class="col-md-4 col-lg-3 mb-4">
-                🏃 Exercise
-                <br>
-                <strong>
-                    {{ analytics.average_exercise }} mins
-                </strong>
-            </div>
-
-            <div class="col-md-4 col-lg-3 mb-4">
-                📱 Screen Time
-                <br>
-                <strong>
-                    {{ analytics.average_screen_time }} hrs
-                </strong>
-            </div>
-
-            <div class="col-md-4 col-lg-3 mb-0">
-                ✅ Task Completion
-                <br>
-                <strong>
-                    {{ analytics.average_completion }}%
-                </strong>
-            </div>
-
-            <div class="col-md-4 col-lg-3 mb-0">
-                🌊 Full-Flow Days
-                <br>
-                <strong>
-                    {{ analytics.flow_state_percentage }}%
-                </strong>
-            </div>
-
-            <div class="col-md-4 col-lg-3 mb-0">
-                📅 Check-ins
-                <br>
-                <strong>
-                    {{ analytics.total_checkins }}
-                </strong>
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ======================================================
-     GO DEEPER
-     ====================================================== -->
-
-<div class="card border-0 shadow-sm mb-5">
-
-    <div class="card-body text-center py-4">
-
-        <div class="fs-3 mb-2">
-            🔎
-        </div>
-
-        <h4 class="fw-bold">
-            Want to understand your patterns?
-        </h4>
-
-        <p class="text-muted">
-            Explore your trends, insights, and tomorrow's outlook
-            on the Analytics page.
-        </p>
-
-        <a
-            href="{{ url_for('main.analytics') }}"
-            class="btn btn-primary">
-
-            Explore Analytics →
-
-        </a>
-
-    </div>
-
-</div>
-
-
-<!-- ======================================================
-     EMPTY STATE
-     ====================================================== -->
-
-{% if analytics.total_checkins == 0 %}
-
-<div class="card shadow-sm text-center mt-5">
-
-    <div class="card-body py-5">
-
-        <h4>
-            🌱 Your FlowState journey starts today.
-        </h4>
-
-        <p class="text-muted">
-            Complete your first Daily Check-In to start
-            discovering your personal performance patterns.
-        </p>
-
-        <a
-            href="{{ url_for('logs.new_log') }}"
-            class="btn btn-primary btn-lg">
-
-            Complete Today's Check-In
-
-        </a>
-
-    </div>
-
-</div>
-
-{% endif %}
-
 
 {% endblock %}
