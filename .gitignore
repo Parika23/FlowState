@@ -4,3 +4,5 @@ __pycache__/
 *.pyc
 app/static/charts/
 .vscode/
+app/static/analytics_export.csv
+app/static/analytics_export.xlsx
