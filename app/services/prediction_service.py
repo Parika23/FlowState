@@ -11,6 +11,8 @@ performance scores.
 
 from __future__ import annotations
 
+import hashlib
+
 import numpy as np
 import pandas as pd
 
@@ -57,6 +59,12 @@ class PredictionService:
     ]
 
     # =====================================================
+    # Prediction Cache
+    # =====================================================
+
+    _cache = {}
+
+    # =====================================================
     # Initialization
     # =====================================================
 
@@ -95,6 +103,71 @@ class PredictionService:
                 .sort_values("log_date")
                 .reset_index(drop=True)
             )
+
+        # -------------------------------------------------
+        # Identify the current version of the user's data.
+        # -------------------------------------------------
+
+        fingerprint = self._dataset_fingerprint()
+
+        cached = self._cache.get(
+            self.user_id
+        )
+
+        if (
+            cached is None
+            or cached["fingerprint"] != fingerprint
+        ):
+
+            self._cache[
+                self.user_id
+            ] = {
+                "fingerprint": fingerprint,
+                "models": {},
+                "predictions": {},
+                "evaluations": {},
+            }
+
+    # =====================================================
+    # Dataset Fingerprint
+    # =====================================================
+
+    def _dataset_fingerprint(self) -> str:
+        """
+        Create a fingerprint from the current dataset.
+
+        When a new check-in changes the data, the
+        fingerprint changes and the cached models
+        and predictions are automatically discarded.
+        """
+
+        if self.df.empty:
+            return "empty"
+
+        try:
+
+            values = (
+                pd.util.hash_pandas_object(
+                    self.df,
+                    index=True,
+                )
+                .values
+                .tobytes()
+            )
+
+            return hashlib.sha256(
+                values
+            ).hexdigest()
+
+        except Exception:
+
+            return hashlib.sha256(
+                repr(
+                    self.df.to_dict(
+                        orient="records"
+                    )
+                ).encode("utf-8")
+            ).hexdigest()
 
     # =====================================================
     # Data Preparation
@@ -165,13 +238,29 @@ class PredictionService:
     ):
         """
         Train a Linear Regression model.
+
+        If a model has already been trained for the
+        current version of the user's data, reuse it
+        instead of training another model.
         """
+
+        cached_models = (
+            self._cache[
+                self.user_id
+            ]["models"]
+        )
+
+        if target in cached_models:
+            return cached_models[target]
 
         X, y = self._prepare_training_data(
             target
         )
 
         if X is None or y is None:
+
+            cached_models[target] = None
+
             return None
 
         model = LinearRegression()
@@ -180,6 +269,8 @@ class PredictionService:
             X,
             y
         )
+
+        cached_models[target] = model
 
         return model
 
@@ -192,21 +283,44 @@ class PredictionService:
         target: str,
     ) -> dict:
 
+        cached_evaluations = (
+            self._cache[
+                self.user_id
+            ]["evaluations"]
+        )
+
+        if target in cached_evaluations:
+            return cached_evaluations[target]
+
         X, y = self._prepare_training_data(
             target
         )
 
         if X is None or y is None:
-            return {
+
+            result = {
                 "mae": None,
                 "r2": None,
             }
 
+            cached_evaluations[
+                target
+            ] = result
+
+            return result
+
         if len(X) < 5:
-            return {
+
+            result = {
                 "mae": None,
                 "r2": None,
             }
+
+            cached_evaluations[
+                target
+            ] = result
+
+            return result
 
         # -------------------------------------------------
         # Chronological train/test split
@@ -220,10 +334,17 @@ class PredictionService:
             split_index <= 0
             or split_index >= len(X)
         ):
-            return {
+
+            result = {
                 "mae": None,
                 "r2": None,
             }
+
+            cached_evaluations[
+                target
+            ] = result
+
+            return result
 
         X_train = X.iloc[
             :split_index
@@ -266,7 +387,7 @@ class PredictionService:
                 predictions
             )
 
-        return {
+        result = {
             "mae": round(
                 float(mae),
                 2
@@ -282,6 +403,12 @@ class PredictionService:
             ),
         }
 
+        cached_evaluations[
+            target
+        ] = result
+
+        return result
+
     # =====================================================
     # Next-Day Prediction
     # =====================================================
@@ -295,9 +422,24 @@ class PredictionService:
 
         The prediction uses the latest available
         behavioral observation.
+
+        Predictions are cached for the current
+        version of the user's dataset.
         """
 
+        cached_predictions = (
+            self._cache[
+                self.user_id
+            ]["predictions"]
+        )
+
+        if target in cached_predictions:
+            return cached_predictions[target]
+
         if self.df.empty:
+
+            cached_predictions[target] = None
+
             return None
 
         model = self._train_model(
@@ -305,6 +447,9 @@ class PredictionService:
         )
 
         if model is None:
+
+            cached_predictions[target] = None
+
             return None
 
         available_features = [
@@ -314,6 +459,9 @@ class PredictionService:
         ]
 
         if not available_features:
+
+            cached_predictions[target] = None
+
             return None
 
         latest = (
@@ -324,6 +472,9 @@ class PredictionService:
         )
 
         if latest.empty:
+
+            cached_predictions[target] = None
+
             return None
 
         prediction = model.predict(
@@ -336,10 +487,14 @@ class PredictionService:
             100
         )
 
-        return round(
+        result = round(
             float(prediction),
             2
         )
+
+        cached_predictions[target] = result
+
+        return result
 
     # =====================================================
     # Individual Predictions
@@ -377,16 +532,19 @@ class PredictionService:
     # =====================================================
 
     @property
-    def model_evaluation(self) -> dict:
+    def model_evaluation(
+        self,
+    ) -> dict:
         """
         Return evaluation metrics for the
         primary prediction targets.
         """
 
         return {
-            target: self._evaluate_model(
-                target
-            )
+            target:
+                self._evaluate_model(
+                    target
+                )
             for target in self.TARGET_COLUMNS
         }
 
@@ -425,7 +583,9 @@ class PredictionService:
     # =====================================================
 
     @property
-    def prediction_summary(self) -> dict:
+    def prediction_summary(
+        self,
+    ) -> dict:
         """
         Complete next-day prediction summary.
         """
@@ -451,7 +611,9 @@ class PredictionService:
     # =====================================================
 
     @property
-    def dashboard_prediction(self) -> dict:
+    def dashboard_prediction(
+        self,
+    ) -> dict:
         """
         Human-readable prediction data for
         dashboard rendering.
@@ -477,7 +639,9 @@ class PredictionService:
     # Representation
     # =====================================================
 
-    def __repr__(self) -> str:
+    def __repr__(
+        self,
+    ) -> str:
 
         return (
             f"{self.__class__.__name__}("
