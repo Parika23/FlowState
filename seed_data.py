@@ -5,21 +5,19 @@ from app import create_app
 from app.extensions import db
 from app.models.daily_log import DailyLog
 from app.models.user import User
-from app.services.performance_engine import PerformanceEngine
 
 app = create_app()
 
 with app.app_context():
-
-    from app.models.user import User
 
     user = User.query.first()
 
     if not user:
         print("No users found.")
         raise SystemExit
+
     # ---------------------------------------
-    # Delete old logs (optional)
+    # Delete old logs
     # ---------------------------------------
 
     DailyLog.query.filter_by(
@@ -29,24 +27,39 @@ with app.app_context():
     db.session.commit()
 
     # ---------------------------------------
-    # Generate 30 days
+    # Generate 30 days of sample data
     # ---------------------------------------
 
-    start_date = datetime.today().date() - timedelta(days=29)
+    start_date = (
+        datetime.today().date()
+        - timedelta(days=29)
+    )
 
     for i in range(30):
 
         current_date = start_date + timedelta(days=i)
 
-        sleep = round(random.uniform(5.5, 8.5), 1)
+        sleep = round(
+            random.uniform(5.5, 8.5),
+            1
+        )
 
-        screen = round(random.uniform(1.5, 6.5), 1)
+        screen = round(
+            random.uniform(1.5, 6.5),
+            1
+        )
 
-        focus = round(random.uniform(2.0, 8.0), 1)
+        focus = round(
+            random.uniform(2.0, 8.0),
+            1
+        )
 
         planned = random.randint(5, 10)
 
-        completed = random.randint(3, planned)
+        completed = random.randint(
+            3,
+            planned
+        )
 
         energy = random.randint(4, 10)
 
@@ -56,9 +69,19 @@ with app.app_context():
 
         exercise = random.randint(0, 90)
 
-        water = round(random.uniform(1.8, 4.5), 1)
+        water = round(
+            random.uniform(1.8, 4.5),
+            1
+        )
 
-        flow = random.choice([0, 1])
+        # 0 = No flow
+        # 1 = Partial flow
+        # 2 = Full flow
+        flow = random.choices(
+            [0, 1, 2],
+            weights=[0.30, 0.45, 0.25],
+            k=1
+        )[0]
 
         log = DailyLog(
             user_id=user.id,
@@ -81,4 +104,6 @@ with app.app_context():
 
     db.session.commit()
 
-    print("✅ Seed complete! 30 logs inserted.")    
+    print(
+        "✅ Seed complete! 30 logs inserted."
+    )  
