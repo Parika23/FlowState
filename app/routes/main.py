@@ -34,36 +34,11 @@ def dashboard():
         current_user.id
     )
 
-    trends = TrendService(
-        current_user.id
-    )
-
-    
-    recovery_chart = trends.chart_data(
-        "recovery_score"
-    )
-
-    productivity_chart = trends.chart_data(
-        "productivity_score"
-    )
-
-    flowstate_chart = trends.chart_data(
-        "flowstate_index"
-    )
-
     return render_template(
         "dashboard/index.html",
-
-        analytics=analytics,
-
-        trends=trends,
-
-        recovery_chart=recovery_chart,
-
-        productivity_chart=productivity_chart,
-
-        flowstate_chart=flowstate_chart
+        analytics=analytics
     )
+
 
 @main_bp.route("/analytics")
 @login_required
