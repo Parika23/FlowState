@@ -159,4 +159,3 @@ Most productivity apps optimize for one thing: task completion. FlowState was bu
 ## Author
 
 **Parika Mahajan**
-B.Tech, Computer Science & Engineering
