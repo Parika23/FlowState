@@ -14,7 +14,7 @@ FlowState is a full-stack Flask web app. Every day, you log a few simple numbers
 Most habit trackers stop at "here's your data in a table." FlowState goes one step further and asks: *what does this data mean, and what should I do about it?*
 
 1. **You check in** — a short daily form: sleep hours, focus hours, energy, mood, stress, exercise, water, tasks planned vs. completed, and whether you hit a "flow state."
-2. **It's scored** — your check-in is converted into a multi-dimensional performance score (not just one number).
+2. **It's scored** — your check in is converted into a multi dimensional performance score (not just one number).
 3. **It's analyzed** — trends, correlations, and comparisons are calculated across your history.
 4. **It's predicted** — a machine learning model forecasts tomorrow's performance based on today's behavior.
 5. **It's explained** — an AI insight layer (Google Gemini) reads your recent data and writes a plain-English takeaway.
@@ -34,20 +34,20 @@ Instead of one productivity number, every day is scored across six dimensions:
 | **Execution** | How much of the plan actually got done |
 | **Sustainability** | Whether this pace is realistic to keep up |
 
-This is the core design idea behind the app: a "good day" isn't just tasks-completed, it's a combination of how rested, focused, and consistent you were.
+This is the core design idea behind the app: a "good day" isn't just tasks completed, it's a combination of how rested, focused, and consistent you were.
 
 ---
 
 ## Key features
 
-- **📝 Daily check-ins** — a validated form (Flask-WTF) capturing sleep, screen time, focus, tasks, mood, stress, exercise, hydration, and flow state, with duplicate-entry protection per day.
+- **📝 Daily check-ins** — a validated form (Flask-WTF) capturing sleep, screen time, focus, tasks, mood, stress, exercise, hydration, and flow state, with duplicate entry protection per day.
 - **📊 Dashboard** — your current FlowState score across all six dimensions, plus a performance summary.
-- **📈 Analytics** — historical trends, sleep/recovery/productivity patterns, and correlation analysis across your check-ins, built with Pandas and visualized with Matplotlib/Seaborn.
+- **📈 Analytics** — historical trends, sleep/recovery/productivity patterns, and correlation analysis across your check ins, built with Pandas and visualized with Matplotlib/Seaborn.
 - **🔮 Next-day prediction** — a `scikit-learn` `LinearRegression` model trained on your own history, predicting tomorrow's flow-state index, productivity score, and recovery score from today's behavior (evaluated with MAE and R²).
 - **🤖 AI-generated insights** — your last 14 days of data is sent to the Gemini API, which returns a plain-English pattern → insight → action recommendation. Falls back gracefully if the AI call fails, so the rest of the app keeps working.
 - **📤 Export** — download your analytics as CSV or Excel straight from the browser.
 - **📋 My Logs** — a searchable table of every check-in you've ever made.
-- **🔐 Accounts** — registration, login, and session-based auth (Flask-Login), with every user's data fully isolated from every other user's.
+- **🔐 Accounts** — registration, login, and session based auth (Flask-Login), with every user's data fully isolated from every other user's.
 
 ---
 
@@ -88,7 +88,7 @@ FlowState/
 └── requirements.txt
 ```
 
-The app follows a clean **routes → services → models** structure: routes stay thin, all the scoring/analytics/ML logic lives in the service layer, and every service filters by `user_id` so the app is multi-tenant by design.
+The app follows a clean **routes → services → models** structure: routes stay thin, all the scoring/analytics/ML logic lives in the service layer, and every service filters by `user_id` so the app is multi tenant by design.
 
 ---
 
