@@ -1,10 +1,15 @@
 # 🌊 FlowState
 
-🔗 **[Live Demo](https://flowstate-kf0c.onrender.com/)** — try it with demo account attached below:
-### 🔑 Demo Account
+🔗 **[Live Demo](https://flowstate-kf0c.onrender.com/)** — You can use the following credentials to explore the deployed application:
+
+🔑 Demo Account 
 - **Email:** `flow.explorer@demo.com`
 - **Password:** `FlowStateDemo123!`
 *(hosted on a free tier — may take ~30s to wake up on first load)*
+
+The demo account contains sample productivity data so you can explore the analytics dashboard, trends, predictions, and AI insights without entering data manually.
+
+> **Note:** This is a demonstration account. Please do not add personal or sensitive information.
 
 **A personal productivity & wellbeing tracker that scores your days, spots patterns, and predicts tomorrow.**
 
