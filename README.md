@@ -2,7 +2,7 @@
 
 🔗 **[Live Demo](https://flowstate-kf0c.onrender.com/)** — You can use the following credentials to explore the deployed application:
 
-🔑 Demo Account 
+🔑 Demo Account-
 - **Email:** `flow.explorer@demo.com`
 - **Password:** `FlowStateDemo123!`
 *(hosted on a free tier — may take ~30s to wake up on first load)*
