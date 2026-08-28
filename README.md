@@ -11,6 +11,10 @@ The demo account contains sample productivity data so you can explore the analyt
 
 > **Note:** This is a demonstration account. Please do not add personal or sensitive information.
 
+---
+
+## What it is
+
 **A personal productivity & wellbeing tracker that scores your days, spots patterns, and predicts tomorrow.**
 
 FlowState is a full-stack Flask web app. Every day, you log a few simple numbers — sleep, focus, mood, stress, tasks completed — and FlowState turns that into a performance score, historical trends, and an AI-generated insight about what's actually driving your good (and bad) days.
