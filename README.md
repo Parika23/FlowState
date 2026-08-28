@@ -1,6 +1,9 @@
 # 🌊 FlowState
 
-🔗 **[Live Demo](https://flowstate-kf0c.onrender.com/)** — try it with demo account `flow_explorer`
+🔗 **[Live Demo](https://flowstate-kf0c.onrender.com/)** — try it with demo account attached below:
+### 🔑 Demo Account
+- **Email:** `flow.explorer@demo.com`
+- **Password:** `FlowStateDemo123!`
 *(hosted on a free tier — may take ~30s to wake up on first load)*
 
 **A personal productivity & wellbeing tracker that scores your days, spots patterns, and predicts tomorrow.**
