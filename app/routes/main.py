@@ -59,31 +59,95 @@ def analytics():
         current_user.id
     )
 
+    checkins = analytics.total_checkins
+
+    # -------------------------------------------------
+    # Empty-data state
+    # -------------------------------------------------
+
+    if checkins == 0:
+
+        return render_template(
+            "analytics/index.html",
+            analytics=analytics,
+            insights=[],
+            prediction={
+                "flowstate_index": None,
+                "productivity_score": None,
+                "recovery_score": None,
+                "performance_label": "Not Enough Data",
+            },
+            report=None,
+            ai_insight=None,
+            has_data=False,
+        )
+
+    # -------------------------------------------------
+    # Rule-based insights are valid from the first
+    # check-in because they describe the actual data.
+    # -------------------------------------------------
+
     insights = InsightsService(
         current_user.id
     )
 
-    predictions = PredictionService(
-        current_user.id
-    )
+    # -------------------------------------------------
+    # ML prediction requires 5 training pairs,
+    # which means at least 6 check-ins.
+    # -------------------------------------------------
 
-    prediction = predictions.prediction_summary
+    if checkins >= 6:
 
-    report = ReportService(
-        current_user.id
-    )
+        predictions = PredictionService(
+            current_user.id
+        )
 
-    ai_service = AIInsightService()
+        prediction = predictions.prediction_summary
 
-    recent_data = (
-        analytics.dataframe
-        .tail(14)
-        .to_dict(orient="records")
-    )
+    else:
 
-    ai_insight = ai_service.generate_insight(
-        recent_data
-    )
+        prediction = {
+            "flowstate_index": None,
+            "productivity_score": None,
+            "recovery_score": None,
+            "performance_label": "Not Enough Data",
+        }
+
+    # -------------------------------------------------
+    # Trend/report charts require at least 2
+    # observations to show a meaningful change.
+    # -------------------------------------------------
+
+    if checkins >= 2:
+
+        report = ReportService(
+            current_user.id
+        )
+
+    else:
+
+        report = None
+
+    # -------------------------------------------------
+    # AI insight requires a small history rather than
+    # interpreting a single check-in as a pattern.
+    # -------------------------------------------------
+
+    ai_insight = None
+
+    if checkins >= 3:
+
+        ai_service = AIInsightService()
+
+        recent_data = (
+            analytics.dataframe
+            .tail(14)
+            .to_dict(orient="records")
+        )
+
+        ai_insight = ai_service.generate_insight(
+            recent_data
+        )
 
     return render_template(
         "analytics/index.html",
@@ -96,7 +160,9 @@ def analytics():
 
         report=report,
 
-        ai_insight=ai_insight
+        ai_insight=ai_insight,
+
+        has_data=True,
     )
 
 

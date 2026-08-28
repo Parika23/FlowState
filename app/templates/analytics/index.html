@@ -39,6 +39,8 @@
             </div>
 
 
+            {% if has_data %}
+
             <div class="d-flex flex-wrap gap-2">
 
                 <a
@@ -59,10 +61,41 @@
 
             </div>
 
+            {% endif %}
+
         </div>
 
     </section>
 
+
+    {% if not has_data %}
+
+    <section class="mb-5">
+
+        <div class="card border-0 text-center">
+
+            <div class="card-body py-5 px-4">
+
+                <div class="fs-1 mb-3">
+                    📊
+                </div>
+
+                <h2 class="h4 fw-bold mb-2">
+                    Not Enough Data Yet
+                </h2>
+
+                <p class="text-muted mb-0 mx-auto" style="max-width:600px;">
+                    Add your first daily check-in to start seeing your
+                    performance analytics, trends, and personalized insights.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    {% else %}
 
     <!-- =====================================================
          PERFORMANCE OVERVIEW
@@ -375,11 +408,15 @@
                             class="display-5 fw-bold mt-1"
                             style="color:var(--primary);"
                         >
-                            {{ prediction.flowstate_index }}
+                            {% if prediction.flowstate_index is not none %}{{ prediction.flowstate_index }}{% else %}Not enough data{% endif %}
                         </div>
 
                         <small class="text-muted">
-                            estimated from recent patterns
+                            {% if prediction.flowstate_index is not none %}
+                                estimated from recent patterns
+                            {% else %}
+                                Requires at least 6 check-ins
+                            {% endif %}
                         </small>
 
                     </div>
@@ -402,11 +439,15 @@
                         </div>
 
                         <div class="display-5 fw-bold text-success mt-1">
-                            {{ prediction.productivity_score }}
+                            {% if prediction.productivity_score is not none %}{{ prediction.productivity_score }}{% else %}Not enough data{% endif %}
                         </div>
 
                         <small class="text-muted">
-                            estimated from recent patterns
+                            {% if prediction.productivity_score is not none %}
+                                estimated from recent patterns
+                            {% else %}
+                                Requires at least 6 check-ins
+                            {% endif %}
                         </small>
 
                     </div>
@@ -429,11 +470,15 @@
                         </div>
 
                         <div class="display-5 fw-bold text-info mt-1">
-                            {{ prediction.recovery_score }}
+                            {% if prediction.recovery_score is not none %}{{ prediction.recovery_score }}{% else %}Not enough data{% endif %}
                         </div>
 
                         <small class="text-muted">
-                            estimated from recent patterns
+                            {% if prediction.recovery_score is not none %}
+                                estimated from recent patterns
+                            {% else %}
+                                Requires at least 6 check-ins
+                            {% endif %}
                         </small>
 
                     </div>
@@ -591,7 +636,7 @@
                 {% else %}
 
                     <div class="alert alert-info mt-4 mb-0">
-                        Keep logging your daily habits to unlock
+                        Complete at least 3 daily check-ins to unlock
                         personalized AI insights.
                     </div>
 
@@ -712,7 +757,9 @@
 
             <div class="card-body p-4">
 
-                {% if report.charts.performance_comparison %}
+                {% if analytics.total_checkins >= 2
+                      and report
+                      and report.charts.performance_comparison %}
 
                     <div class="text-center">
 
@@ -753,8 +800,8 @@
                 {% else %}
 
                     <div class="alert alert-info">
-                        Keep logging your daily habits to see
-                        your performance comparison.
+                        Complete at least 2 daily check-ins to see
+                        a meaningful performance comparison.
                     </div>
 
                 {% endif %}
@@ -847,7 +894,9 @@
                 </div>
 
 
-                {% if report.charts.correlation %}
+                {% if analytics.total_checkins >= 5
+                      and report
+                      and report.charts.correlation %}
 
                     <div class="text-center">
 
@@ -888,8 +937,8 @@
                 {% else %}
 
                     <div class="alert alert-info mb-0">
-                        Complete more check-ins to uncover
-                        relationships between your daily habits
+                        Complete at least 5 daily check-ins to uncover
+                        meaningful relationships between your daily habits
                         and performance.
                     </div>
 
@@ -942,6 +991,8 @@
         </div>
 
     </section>
+
+    {% endif %}
 
 
 </div>

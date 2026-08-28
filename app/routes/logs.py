@@ -3,12 +3,12 @@ from flask import (
     render_template,
     redirect,
     url_for,
-    flash
+    flash,
 )
 
 from flask_login import (
     login_required,
-    current_user
+    current_user,
 )
 
 from app.extensions import db
@@ -19,14 +19,13 @@ from app.forms.daily_log_forms import DailyLogForm
 logs_bp = Blueprint(
     "logs",
     __name__,
-    url_prefix="/logs"
+    url_prefix="/logs",
 )
 
 
 @logs_bp.route("/")
 @login_required
 def index():
-
     logs = (
         DailyLog.query
         .filter_by(user_id=current_user.id)
@@ -36,7 +35,7 @@ def index():
 
     return render_template(
         "logs/index.html",
-        logs=logs
+        logs=logs,
     )
 
 
@@ -46,34 +45,47 @@ def new_log():
 
     form = DailyLogForm()
 
-    if form.validate_on_submit():
+    # ======================================================
+    # DUPLICATE DATE CHECK
+    # ======================================================
 
-        # Prevent duplicate logs for the same day
+    if form.is_submitted() and form.log_date.data:
+
         existing_log = DailyLog.query.filter_by(
             user_id=current_user.id,
-            log_date=form.log_date.data
+            log_date=form.log_date.data,
         ).first()
 
         if existing_log:
 
-            flash(
-                "You've already completed your Flow Check-In for this date.",
-                "warning"
+            form.log_date.errors = tuple(
+                form.log_date.errors
+            ) + (
+                "A check-in already exists for this date. "
+                "You can only submit one check-in per day.",
             )
 
-            return redirect(
-                url_for("logs.index")
+            return render_template(
+                "logs/create.html",
+                form=form,
             )
+
+    # ======================================================
+    # NORMAL FORM VALIDATION
+    # ======================================================
+
+    if form.validate_on_submit():
 
         log = DailyLog(
-
             user_id=current_user.id,
 
             log_date=form.log_date.data,
 
             sleep_hours=form.sleep_hours.data,
 
-            recreational_screen_time=form.recreational_screen_time.data,
+            recreational_screen_time=(
+                form.recreational_screen_time.data
+            ),
 
             focus_hours=form.focus_hours.data,
 
@@ -93,17 +105,21 @@ def new_log():
 
             flow_state=form.flow_state.data,
 
-            notes=form.notes.data.strip()
-            if form.notes.data else None
-
+            notes=(
+                form.notes.data.strip()
+                if form.notes.data
+                else None
+            ),
         )
 
         db.session.add(log)
         db.session.commit()
 
         flash(
-            "🎉 Today's Flow Check-In has been saved successfully!",
-            "success"
+            f"🎉 Flow Check-In for "
+            f"{form.log_date.data.strftime('%d %b %Y')} "
+            f"has been saved successfully!",
+            "success",
         )
 
         return redirect(
@@ -112,5 +128,5 @@ def new_log():
 
     return render_template(
         "logs/create.html",
-        form=form
+        form=form,
     )

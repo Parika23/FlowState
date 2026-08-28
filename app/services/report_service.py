@@ -721,7 +721,7 @@ class ReportService:
         It does not make predictions.
         """
 
-        if not history or len(history) < 2:
+        if not history or len(history) < 3:
 
             return (
                 "Keep logging your daily habits to build "
@@ -734,7 +734,7 @@ class ReportService:
             if item.get("score") is not None
         ]
 
-        if len(values) < 2:
+        if len(values) < 3:
 
             return (
                 "Keep logging your daily habits to build "

@@ -26,6 +26,11 @@ class AIInsightService:
 
     def generate_insight(self, data):
 
+        # Do not call Gemini without enough history
+        # to support a meaningful pattern-based insight.
+        if not data or len(data) < 3:
+            return None
+
         prompt = f"""
 You are the AI productivity coach inside FlowState.
 
@@ -62,11 +67,14 @@ Rules:
                 contents=prompt
             )
 
+            if not response.text:
+                return None
+
             return response.text.strip()
 
-        except Exception as exc:
+        except Exception:
 
             return (
                 "AI insights are temporarily unavailable. "
-                f"Error: {exc}"
+                "Please try again later."
             )

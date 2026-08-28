@@ -672,6 +672,28 @@
             </div>
 
 
+            {% set performance_areas = {
+                "Recovery": analytics.average_recovery_score,
+                "Capacity": analytics.average_capacity_score,
+                "Focus": analytics.average_focus_investment_score,
+                "Productivity": analytics.average_productivity_score,
+                "Execution": analytics.average_execution_score,
+                "Sustainability": analytics.average_sustainability_score
+            } %}
+
+            {% set valid_areas = namespace(values={}) %}
+
+            {% for area, score in performance_areas.items() %}
+                {% if score is not none and score >= 0 and score <= 100 %}
+                    {% set _ = valid_areas.values.update({area: score}) %}
+                {% endif %}
+            {% endfor %}
+
+            {% if valid_areas.values and analytics.total_checkins >= 3 %}
+                {% set strongest_area = valid_areas.values | dictsort(by="value") | last %}
+                {% set weakest_area = valid_areas.values | dictsort(by="value") | first %}
+            {% endif %}
+
             <div class="row g-3">
 
 
@@ -717,12 +739,26 @@
                             </div>
 
 
-                            <p class="small mb-0">
-                                Your current performance is being
-                                supported by the areas where your
-                                scores are strongest. Visit Analytics
-                                for a detailed breakdown.
-                            </p>
+                            {% if valid_areas.values and analytics.total_checkins >= 3 %}
+
+                                <p class="small mb-0">
+                                    <strong>
+                                        {{ strongest_area[0] }} —
+                                        {{ "%.1f"|format(strongest_area[1]) }}
+                                    </strong>
+                                    is currently your strongest performance area.
+                                </p>
+
+                            {% else %}
+
+                                <p class="small mb-0">
+                                    Keep logging your daily data to identify
+                                    your strongest performance area.
+                                    More check-ins will make this takeaway
+                                    more meaningful.
+                                </p>
+
+                            {% endif %}
 
                         </div>
 
@@ -774,12 +810,27 @@
                             </div>
 
 
-                            <p class="small mb-0">
-                                Small improvements in your weaker
-                                areas can help strengthen your overall
-                                FlowState. Visit Analytics to explore
-                                your patterns.
-                            </p>
+                            {% if valid_areas.values and analytics.total_checkins >= 3 %}
+
+                                <p class="small mb-0">
+                                    <strong>
+                                        {{ weakest_area[0] }} —
+                                        {{ "%.1f"|format(weakest_area[1]) }}
+                                    </strong>
+                                    is currently your lowest-scoring
+                                    performance area.
+                                </p>
+
+                            {% else %}
+
+                                <p class="small mb-0">
+                                    Keep logging your daily data to identify
+                                    areas that may need more attention.
+                                    More check-ins will make this takeaway
+                                    more meaningful.
+                                </p>
+
+                            {% endif %}
 
                         </div>
 
